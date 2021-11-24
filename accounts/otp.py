@@ -20,12 +20,12 @@ def sentOTP(mobile):
 
 
 def checkOTP(mobile,otp):
-    account_sid = 'AC0ba123cb9cfd0e1ea18cea722ec57247'
-    auth_token = '07a139bd5e4201c6542585e3205f54ce'
+    account_sid =  settings.ACCOUNT_SID 
+    auth_token =  settings.AUTH_TOKEN
     client = Client(account_sid, auth_token)
 
     verification_check = client.verify \
-                            .services('VAf9fed1ba6bcbc64fd6fa9f73d25b1f1a') \
+                            .services(settings.SERVICES_KEY_OTP) \
                             .verification_checks \
                             .create(to='+91'+mobile, code=otp)
 
