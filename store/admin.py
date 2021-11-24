@@ -15,9 +15,9 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class VariationAdmin(admin.ModelAdmin):
-    list_display = ('product','variation_category','variation_value','is_active')
+    list_display = ('product','variation_category','variation_value','color_name','is_active')
     list_editable = ('is_active',)
-    list_filter = ('product','variation_category','variation_value')
+    list_filter = ('product','variation_category','color_name','variation_value')
     fieldsets = (
    (None, {
       'fields': (('name', 'letter'), 'questions', 'color')

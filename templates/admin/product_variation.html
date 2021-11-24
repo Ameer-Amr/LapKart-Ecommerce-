@@ -21,6 +21,7 @@
 							<th>Product Name</th>
 							<th scope="col">Varient Category</th>
 							<th scope="col">variation value </th>
+							<th scope="col">Color </th>
 							<th scope="col">Status</th>
 							<th scope="col">Actions</th>
 						</tr>
@@ -33,6 +34,7 @@
 							<td>{{varient.product}}</td>
 							<td>{{varient.variation_category}}</td>
 							<td>{{varient.variation_value}}</td>
+							<td>{{varient.color_name}}</td>
                             {% if varient.is_active %}
                             <td><a href="{%  url 'blockvarient' varient.id %}" onclick="blockVarient()"><i class="fas fa-circle" style="color: green;"></i></a></td>  
                             {% else %}

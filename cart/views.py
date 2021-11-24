@@ -25,10 +25,12 @@ def add_cart(request,product_id):
         if request.method == 'POST':
             for item in request.POST:   #for check the varients
                 key = item
-                value = request.POST[key]
+                # value = request.POST[key]
+                color=request.POST['color']
+                print(color)
                 
                 try:
-                    variation = Variation.objects.get(product = product , variation_category__iexact = key , variation_value__iexact = value )
+                    variation = Variation.objects.get(product = product , variation_category__iexact = key , color_name__iexact = color )
                     product_variation.append(variation)
                 except:
                     pass    
@@ -81,10 +83,10 @@ def add_cart(request,product_id):
         if request.method == 'POST':
             for item in request.POST:   #for check the varients
                 key = item
-                value = request.POST[key]
-                
+                # value = request.POST[key]
+                color=request.POST['color']
                 try:
-                    variation = Variation.objects.get(product=product, variation_category__iexact=key, variation_value__iexact=value)
+                    variation = Variation.objects.get(product=product, variation_category__iexact=key, color_name__iexact= color)
                     product_variation.append(variation)
                 except:
                     pass    
@@ -175,6 +177,7 @@ def remove_cart_item(request,product_id,cart_item_id):
 
 
 def cart(request,total=0,quantity=0,cart_items=None):
+
     tax = 0
     grand_total = 0
     try:

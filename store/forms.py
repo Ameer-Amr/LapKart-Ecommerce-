@@ -13,7 +13,7 @@ class ProductForm(ModelForm):
 class VarientForm(ModelForm):
     class Meta:
         model = Variation
-        fields = ['product','variation_category','variation_value','is_active']
+        fields = ['product','variation_category','variation_value','color_name','is_active']
         widgets = {
    'variation_value': TextInput(attrs = {
       'type': 'color'
