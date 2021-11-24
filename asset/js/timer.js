@@ -1,0 +1,32 @@
+let timerOn = true;
+console.log("kkijieworjhowiehr");
+function timer(remaining) {
+  console.log("kkijieworzsdfsdfsdfsdfjhowiehr");
+  var m = Math.floor(remaining / 60);
+  var s = remaining % 60;
+  m = m < 10 ? "0" + m : m;
+  s = s < 10 ? "0" + s : s;
+
+  console.log(m);
+  console.log(s);
+
+  document.getElementById("countdown").innerHTML = `Time left: ${m} : ${s}`;
+  remaining -= 1;
+  if (remaining >= 0 && timerOn) {
+    setTimeout(function () {
+      timer(remaining);
+    }, 1000);``
+    document.getElementById("#resend").innerHTML = ``;
+    return;
+  }
+  if (!timerOn) {
+    return;
+  }
+  document.getElementById("resend").innerHTML = `Don't receive the code? <br>
+  <a href="verify-otp" class=" btn btn-success">Resend</a>
+  `;
+  let sub = document.getElementById("submit").remove();
+
+  console.log(sub);
+}
+timer(120);

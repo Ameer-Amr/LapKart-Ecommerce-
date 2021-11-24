@@ -1,0 +1,46 @@
+{% load static %}
+
+<html>
+
+<head>
+
+
+    <link rel="stylesheet" href="{% static 'css/adminlogin.css'%}">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.js"
+        integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+    <script src="{% static 'js/adminlogin.js'%}"></script>
+    <title>Admin Login</title>
+</head>
+
+<body>
+    <div class="login-page">
+        <h1 class="h1">Admin Login</h1>
+        <div class="form">
+            <form class="register-form">
+                {%csrf_token%}
+                <!-- <input type="text" placeholder="name" /> -->
+                <input type="password" placeholder="password" />
+                <input type="text" placeholder="email address" />
+                <button>create</button>
+                <p class="message">Already registered? <a href="#">Sign In</a></p>
+            </form>
+            <form class="login-form"  action="{% url 'adminlogin' %}" method="post">
+                <input type="text" placeholder="Email Address" name="email" />
+                <input type="password" placeholder="Password" name="password"/>
+                <button type="submit">login</button>
+                {% for x in messages %}
+                <h6 style="color: red; font-size: small; text-align: center;">{{x}}</h6>
+                {%endfor%}
+                <!-- <p class="message">Not registered? <a href="#">Create an account</a></p> -->
+            </form>
+        </div>
+    </div>
+</body>
+
+
+</html>
