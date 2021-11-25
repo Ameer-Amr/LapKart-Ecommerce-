@@ -1,0 +1,72 @@
+
+{% extends 'user/base.html' %}
+{% load static %}
+
+
+
+<body>
+    {% block body%}
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-conten padding-y bg">
+{% include 'includes/alerts.html' %}
+<div class="container">
+	<div class="row">
+        {% include 'includes/dashboard_sidebar.html' %}
+	<main class="col-md-9">
+		<article class="card">
+		<header class="card-header">
+			<strong class="d-inline-block mr-3">Your Order History</strong>
+			
+		</header>
+    {% if not orders %}
+    <h3 class="text-center mt-5" style="color: #FF7F7F;">Oops..!</h3>
+    <h5 class="text-center" style="color: #313031;">It looks like you haven't made your order yet.</h5>
+    <img src="{% static './images/empty order.jpg' %}" alt="" class="center" width="100%" height="300">
+    <div class="text-center mb-4">
+      <a href="{% url 'store' %}" class="btn btn-primary col-6">Shop Now</a>
+    </div>
+    {% else %}
+		<div class="card-body">
+			<div class="row"> 
+				<div class="col-md-12">
+                    <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">Order #</th>
+                            <th scope="col">Billing Name</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Order Total</th>
+                            <th scope="col">Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                              {% for order in orders %}
+                          <tr>
+                            <th scope="row">{{order.order_number}}</a></th>
+                            <td>{{order.full_name}}</td>
+                            <td>{{order.phone}}</td>
+                            <td>Rs {{order.order_total}}</td>
+                            <td>{{order.created_at}}</td>
+                          </tr>
+                      {% endfor %}
+      
+                        </tbody>
+                      </table>
+				</div>
+
+			</div> <!-- row.// -->
+		</div> <!-- card-body .// -->
+    {% endif %}
+		</article> <!-- order-group.// --> 
+	</main>
+</div> <!-- row.// -->
+</div>
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}
+</body>
+

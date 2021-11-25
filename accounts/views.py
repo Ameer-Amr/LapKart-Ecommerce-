@@ -1,15 +1,16 @@
 
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages, auth
 from cart.models import Cart, CartItem
 
 from accounts.otp import checkOTP, sentOTP
-from .models import Account
-from .forms import RegistrationForm
+from .models import Account,Address, UserProfile
+from .forms import RegistrationForm,AddressForm,UserProfileForm,UserForm
 from django.contrib.auth.decorators import login_required
 from cart.models import Cart, CartItem
 from cart.views import _cart_id
 import requests
+from orders.models import Order
 # Create your views here.
 
 
@@ -116,6 +117,12 @@ def confirm_signup(request):
         if checkOTP(phone_number, otp):
             user.phone_number = phone_number
             user.save()
+
+            # Create a user profile
+            profile = UserProfile()
+            profile.user_id = user.id
+            profile.profile_picture = 'default/default-image.png'
+            profile.save()
             messages.success(request, 'Registered successfully')
             return redirect('userlogin')
         else:
@@ -170,4 +177,93 @@ def resent_otp(request):
 
 @login_required(login_url='userlogin')
 def userdashboard(request):
-    return render(request,'user/userdashboard.html')
+    orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id,is_ordered=True)
+    orders_count = orders.count()
+    context = {
+        'orders_count':orders_count
+    }
+    return render(request,'user/userdashboard.html',context)
+
+
+@login_required(login_url='userlogin')
+def my_orders(request):
+    orders = Order.objects.filter(user=request.user,is_ordered=True).order_by('-created_at')
+    context = {
+        'orders':orders
+    }
+    return render(request,'user/my_orders.html',context)
+
+
+
+@login_required(login_url='userlogin')
+def edit_profile(request):
+    userprofile = get_object_or_404(UserProfile, user=request.user)
+    print(userprofile)
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile has been updated.')
+            return redirect('edit_profile')
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=userprofile)
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'userprofile': userprofile,
+    }
+    return render(request, 'user/edit_profile.html', context)
+
+
+@login_required(login_url='userlogin')
+def change_password(request):
+    if request.method == 'POST':
+        current_password = request.POST['current_password']
+        new_password = request.POST['new_password']
+        confirm_password = request.POST['confirm_password']
+
+        user = Account.objects.get(username__exact=request.user.username)
+
+        if new_password == confirm_password:
+            success = user.check_password(current_password)
+            if success:
+                user.set_password(new_password)
+                user.save()
+                #auth.logout(request)
+                messages.success(request,'Password Updated Successfully.')
+                return redirect('change_password')
+            else:
+                messages.error(request,'Your Existing Password Is Incorrect')
+                return redirect('change_password')
+        else:
+            messages.info(request,'Password Does Not Match!')        
+            return redirect('change_password')
+
+    return render(request,'user/change_password.html')
+
+
+
+
+
+
+def add_address(request):
+    form = AddressForm()
+    addresses = Address.objects.filter(user=request.user)
+
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            messages.success(request, 'Successfully new address added')
+            return redirect('userProfile:my-addresses')
+
+    context = {
+        'form': form,
+        'addresses': addresses
+    }
+    return render(request, 'user/address.html', context)

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
+from django.db.models.deletion import CASCADE
 from django.db.models.fields import DateTimeField
 
 
@@ -71,3 +72,43 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self,add_label):
         return True
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE)
+    address_line_1 = models.CharField(blank=True, max_length=100)
+    address_line_2 = models.CharField(blank=True, max_length=100)
+    profile_picture = models.ImageField(blank=True, upload_to='userprofile')
+    city = models.CharField(blank=True, max_length=20)
+    state = models.CharField(blank=True, max_length=20)
+    country = models.CharField(blank=True, max_length=20)
+
+    def __str__(self):
+        return self.user.first_name
+
+    def full_address(self):
+        return f'{self.address_line_1} {self.address_line_2}'
+
+
+
+
+#Address
+class Address(models.Model):
+    user = models.ForeignKey(Account,on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=50)
+    phone = models.CharField(max_length=10)
+    email = models.EmailField(max_length=35)
+    pin_code = models.PositiveIntegerField()
+    locality = models.CharField(max_length=50)
+    landmark = models.CharField(max_length=50)
+    street = models.CharField(max_length=50, verbose_name='Area/Street/Village')
+    city = models.CharField(max_length=50,verbose_name='Town/City')
+    district = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    address_type = models.CharField(max_length=50, verbose_name='Address Type', help_text='Example:- Home, Office, etc',null=True)
+    default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.full_name
+
+
