@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from cart.models import Cart, CartItem
 from cart.views import _cart_id
 import requests
-from orders.models import Order
+from orders.models import Order, OrderProduct
 # Create your views here.
 
 
@@ -179,8 +179,11 @@ def resent_otp(request):
 def userdashboard(request):
     orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id,is_ordered=True)
     orders_count = orders.count()
+
+    userprofile = UserProfile.objects.get(user_id=request.user.id)
     context = {
-        'orders_count':orders_count
+        'orders_count':orders_count,
+        'userprofile':userprofile,  
     }
     return render(request,'user/userdashboard.html',context)
 
@@ -243,6 +246,24 @@ def change_password(request):
             return redirect('change_password')
 
     return render(request,'user/change_password.html')
+
+
+@login_required(login_url='userlogin')
+def order_detail(request,order_id):
+    order_detail = OrderProduct.objects.filter(order__order_number=order_id) #with the '__' we can access foreign key objects
+    order = Order.objects.get(order_number=order_id)
+    subtotal = 0
+
+    for i in order_detail:
+        subtotal = subtotal + i.product_price * i.quantity
+
+    context = {
+        'order_detail':order_detail,
+        'order':order,
+        'subtotal':subtotal
+    }
+
+    return render(request,'user/order_detail.html',context)
 
 
 

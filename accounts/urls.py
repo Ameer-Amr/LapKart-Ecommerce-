@@ -15,7 +15,9 @@ urlpatterns = [
     path('my_orders/',views.my_orders,name='my_orders'),
     path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('change_password/', views.change_password, name='change_password'),
+    path('order_detail/<int:order_id>/',views.order_detail,name='order_detail'),
     path('add_address', views.add_address, name='add_address'),
+
     # path('edit_address/<str:pk>/', views.edit_address, name='edit_address'),
     # path('delete_address/<str:pk>/', views.delete_address, name='delete_address'),
     # path('set_default_address/<str:pk>/', views.set_default_address, name='set_default_address')
