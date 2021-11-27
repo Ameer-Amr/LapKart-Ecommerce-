@@ -11,55 +11,109 @@
 	<aside class="col-lg-6">
 <div class="card">
     <div class="card-body">
+        <article class="card">
+            <header class="card-header mb-2" style="display: flex; justify-content: space-between;">
+                <strong class="d-inline-block mr-3">My Addresses</strong>
+                <a href="{% url 'add_address' %}">Add Address</a>
+            </header>
+
+            <div class="container">
+                <form id="adrs">
+                    {% for address in addresses %}
+                    <div class="row">
+                        <div class="col-md-1 pt-2 text-center">
+                            <input type="radio" onchange="a('{{address.first_name}}','{{address.last_name}}','{{address.address_line_1}}','{{address.address_line_2}}','{{address.city}}','{{address.state}}','{{address.country}}','{{address.pincode}}','{{address.phone_number}}','{{address.email}}')"
+                                id="{{address.id}}" name="address" value="{{address.id}}">
+                        </div>
+                        <div class="col-md-11">
+                            <label for="html">
+                                <div class="col-sm-12 mt-2 mb-2">
+                                    <div class="card">
+                                        <div class="card-body" style="height: 160px;">
+                                            <h5 class="card-title mb-0">{{address.full_name}}</h5>
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                    <p class="card-text mb-0">Address:</p>
+                                                    <p class="card-text mb-0">{{address.full_address}}
+                                                    </p>
+                                                </div>
+                                                <!-- <div class="col-md-6">
+                                                    <p class="card-text mb-0">{{address.city}},
+                                                        {{address.state}}</p>
+                                                    <p class="card-text mb-0">{{address.country}}, PIN:
+                                                        {{address.pincode}}
+                                                    </p>
+                                                    <p class="card-text mb-0">Phone:
+                                                        {{address.all_numbers}}</p>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>
+            <div class="row">
+                {% if addresses %}
+                {% else %}
+                <p class="pb-2" style="padding-left: 30px;">No saved addresses</p>
+                {% endif %}
+            </div>
+        </article>
+
         <h4 class="card-title mb-4">Billing Address</h4>
         <form action="{% url 'place_order' %}" method="POST">
             {% csrf_token %}
             <div class="form-row">
                 <div class="col form-group">
                     <label for="">First Name</label>
-                    <input type="text" name="first_name" class="form-control" required>
+                    <input type="text" name="first_name" id="first_name" class="form-control">
                 </div>
                 <div class="col form-group">
                     <label for="">Last Name</label>
-                    <input type="text" name="last_name" class="form-control" required>
+                    <input type="text" name="last_name" id="last_name" class="form-control">
                 </div>
             </div>
             <div class="form-row">
                 <div class="col form-group">
                     <label for="">Email Address</label>
-                    <input type="email" name="email" class="form-control" required>
+                    <input type="email" name="email" id="email"  class="form-control" >
                 </div>
                 <div class="col form-group">
                     <label for="">Phone Number</label>
-                    <input type="text" name="phone" class="form-control" required>
+                    <input type="text" name="phone_number" id="phone_number" class="form-control" >
                 </div>
             </div>
             <div class="form-row">
                 <div class="col form-group">
                     <label for="">Address Line 1</label>
-                    <input type="text" name="address_line_1" class="form-control" required>
+                    <input type="text" name="address_line_1" id="address_line_1" class="form-control" >
                 </div>
                 <div class="col form-group">
                     <label for="">Address Line 2</label>
-                    <input type="text" name="address_line_2" class="form-control">
+                    <input type="text" name="address_line_2" id="address_line_2" class="form-control">
                 </div>
             </div>
             <div class="form-row">
                 <div class="col form-group">
                     <label for="">City</label>
-                    <input type="text" name="city" class="form-control" required>
+                    <input type="text" name="city" id="city" class="form-control" >
                 </div>
                 <div class="col form-group">
                     <label for="">State</label>
-                    <input type="text" name="state" class="form-control" required>
+                    <input type="text" name="state" id="state" class="form-control" >
                 </div>
                 <div class="col form-group">
                     <label for="">Country</label>
-                    <input type="text" name="country" class="form-control" required>
+                    <input type="text" name="country" id="country" class="form-control" >
                 </div>
                 <div class="col form-group">
                     <label for="">PIN</label>
-                    <input type="text" name="pin" class="form-control" required>
+                    <input type="text" name="pincode" id="pincode" class="form-control" >
                 </div>
             </div>
                 <div class="form-row">
@@ -128,4 +182,22 @@
 
 </div> <!-- container .//  -->
 </section>
+
+
+
+<script>
+    function a(first_name, last_name, address_line_1, address_line_2, city, state, country, pincode, phone_number, email) {
+        document.getElementById('first_name').value = first_name
+        document.getElementById('last_name').value = last_name
+        document.getElementById('address_line_1').value = address_line_1
+        document.getElementById('address_line_2').value = address_line_2
+        document.getElementById('city').value = city
+        document.getElementById('state').value = state
+        document.getElementById('country').value = country
+        document.getElementById('pincode').value = pincode
+        document.getElementById('phone_number').value = phone_number
+        document.getElementById('email').value = email
+
+    }
+</script>
 {% endblock %}

@@ -17,9 +17,8 @@ urlpatterns = [
     path('change_password/', views.change_password, name='change_password'),
     path('order_detail/<int:order_id>/',views.order_detail,name='order_detail'),
     path('add_address', views.add_address, name='add_address'),
-
-    # path('edit_address/<str:pk>/', views.edit_address, name='edit_address'),
-    # path('delete_address/<str:pk>/', views.delete_address, name='delete_address'),
-    # path('set_default_address/<str:pk>/', views.set_default_address, name='set_default_address')
+    path('edit-address/<int:pk>/', views.edit_address, name='edit-address'),
+    path('delete-address/<int:pk>/', views.delete_address, name='delete-address'),
+    path('set-default-address/<int:pk>/', views.set_default_address, name='set-default-address'),
 
 ]

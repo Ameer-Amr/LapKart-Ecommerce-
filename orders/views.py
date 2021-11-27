@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import  JsonResponse
 from store.models import Product
 from .models import Order, OrderProduct, Payment
+from accounts.models import Address
 from cart.models import CartItem
 from .forms import OrderForm
 import datetime
@@ -37,14 +38,14 @@ def place_order(request,total = 0,quantity = 0):
             data.user = current_user
             data.first_name = form.cleaned_data['first_name']
             data.last_name = form.cleaned_data['last_name']
-            data.phone = form.cleaned_data['phone']
+            data.phone_number = form.cleaned_data['phone_number']
             data.email = form.cleaned_data['email']
             data.address_line_1 = form.cleaned_data['address_line_1']
             data.address_line_2 = form.cleaned_data['address_line_2']
             data.country = form.cleaned_data['country']
             data.state = form.cleaned_data['state']
             data.city = form.cleaned_data['city']
-            data.pin = form.cleaned_data['pin']
+            data.pincode = form.cleaned_data['pincode']
             data.order_note = form.cleaned_data['order_note']
             data.order_total = grand_total
             data.tax = tax
@@ -62,6 +63,7 @@ def place_order(request,total = 0,quantity = 0):
             data.save()
 
             order = Order.objects.get(user=current_user,is_ordered=False,order_number=order_number)
+            addresses = Address.objects.filter(user=request.user)
             context = {
                 'order':order,
                 'cart_items':cart_items,
@@ -69,6 +71,7 @@ def place_order(request,total = 0,quantity = 0):
                 'tax':tax,
                 'grand_total':grand_total,
                 'in_dollar' : in_dollar,
+                'addresses':addresses,
             }
 
             return render(request,'user/payments.html',context)

@@ -60,9 +60,13 @@ class UserProfileForm(forms.ModelForm):
             self.fields[field].widget.attrs['class'] = 'form-control'
 
 
-
 class AddressForm(forms.ModelForm):
-
     class Meta:
         model = Address
-        fields = ['full_name', 'phone', 'email', 'pin_code', 'locality', 'landmark', 'street', 'city', 'district', 'state','address_type']
+        fields = ['first_name', 'last_name', 'phone_number', 'email',
+                  'address_line_1', 'address_line_2', 'city', 'state', 'country', 'pincode','address_type']
+
+    def __init__(self, *args, **kwargs):
+        super(AddressForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'

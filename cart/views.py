@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from cart.models import Cart, CartItem
 from django.contrib.auth.decorators import login_required
 from store.models import Product, Variation
+from accounts.models import Address
 
 # Create your views here.
 
@@ -210,6 +211,7 @@ def checkout(request,total=0,quantity=0,cart_items=None):
         try:
             if request.user.is_authenticated:
                 cart_items = CartItem.objects.filter(user=request.user , is_active=True)
+                addresses = Address.objects.filter(user=request.user)
             else:
                 cart = Cart.objects.get(cart_id=_cart_id(request))
                 cart_items = CartItem.objects.filter(cart=cart , is_active=True)
@@ -226,6 +228,7 @@ def checkout(request,total=0,quantity=0,cart_items=None):
         'quantity':quantity,
         'cart_items':cart_items,
         'tax':tax,
-        'grand_total':grand_total
+        'grand_total':grand_total,
+        'addresses':addresses
         }
         return render(request,'user/checkout.html',context)

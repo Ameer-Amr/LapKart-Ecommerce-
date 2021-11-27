@@ -214,7 +214,7 @@
 	</div>
     <div class="left-side-bar">
 		<div class="brand-logo">
-			<a href="index.html">
+			<a href="#">
 				<img src="{% static 'vendors/images/deskapp-logo.svg' %}" alt="" class="dark-logo">
 				<img src="{% static 'vendors/images/deskapp-logo-white.svg' %}" alt="" class="light-logo">
 			</a>
@@ -226,13 +226,12 @@
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
 					<li class="dropdown">
-						<a href="{% url 'dashboard' %}" class="dropdown-toggle">
+						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
 						</a>
-						<!-- <ul class="submenu">
-							<li><a href="index.html">Dashboard style 1</a></li>
-							<li><a href="index2.html">Dashboard style 2</a></li>
-						</ul> -->
+						 <ul class="submenu">
+							<li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+						</ul>
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">

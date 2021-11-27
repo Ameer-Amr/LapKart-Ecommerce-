@@ -94,21 +94,25 @@ class UserProfile(models.Model):
 
 #Address
 class Address(models.Model):
-    user = models.ForeignKey(Account,on_delete=models.CASCADE)
-    full_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=10)
-    email = models.EmailField(max_length=35)
-    pin_code = models.PositiveIntegerField()
-    locality = models.CharField(max_length=50)
-    landmark = models.CharField(max_length=50)
-    street = models.CharField(max_length=50, verbose_name='Area/Street/Village')
-    city = models.CharField(max_length=50,verbose_name='Town/City')
-    district = models.CharField(max_length=50)
-    state = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    address_line_1 = models.CharField(max_length=100)
+    address_line_2 = models.CharField(max_length=100, blank=True)
+    city = models.CharField(max_length=20)
+    state = models.CharField(max_length=20)
+    country = models.CharField(max_length=20)
+    pincode = models.CharField(max_length=10)
+    phone_number = models.CharField(max_length=15)
+    email = models.EmailField(max_length=200)
     address_type = models.CharField(max_length=50, verbose_name='Address Type', help_text='Example:- Home, Office, etc',null=True)
     default = models.BooleanField(default=False)
 
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
+    def full_address(self):
+        return f'{self.address_line_1}, {self.address_line_2}'
+
     def __str__(self):
-        return self.full_name
-
-
+        return self.full_name()

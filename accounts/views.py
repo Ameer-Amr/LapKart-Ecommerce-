@@ -2,9 +2,9 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages, auth
 from cart.models import Cart, CartItem
-
+from django.http import  JsonResponse
 from accounts.otp import checkOTP, sentOTP
-from .models import Account,Address, UserProfile
+from .models import Account, UserProfile,Address
 from .forms import RegistrationForm,AddressForm,UserProfileForm,UserForm
 from django.contrib.auth.decorators import login_required
 from cart.models import Cart, CartItem
@@ -270,6 +270,7 @@ def order_detail(request,order_id):
 
 
 
+@login_required(login_url='userlogin')
 def add_address(request):
     form = AddressForm()
     addresses = Address.objects.filter(user=request.user)
@@ -281,10 +282,57 @@ def add_address(request):
             instance.user = request.user
             instance.save()
             messages.success(request, 'Successfully new address added')
-            return redirect('userProfile:my-addresses')
+            return redirect('add_address')
 
     context = {
         'form': form,
         'addresses': addresses
     }
-    return render(request, 'user/address.html', context)
+    return render(request, 'user/add_address.html', context)
+
+
+
+@login_required
+def edit_address(request, pk):
+    address = Address.objects.get(pk=pk)
+    form = AddressForm(instance=address)
+
+    if request.method == 'POST':
+        form = AddressForm(request.POST, instance=address)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your address is updated')
+            return redirect('add_address')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'user/edit-address.html', context)
+
+
+# @login_required
+# def delete_address(request, pk):
+#     if request.is_ajax():
+#         Address.objects.get(pk=pk).delete()
+#         return redirect('add_address')
+
+@login_required
+def delete_address(request,pk):
+    dlt =  Address.objects.filter(pk=pk,user=request.user)
+    print(dlt)
+    dlt.delete()
+    messages.success(request,'Your Address Has been deleted')
+    return redirect('add_address') 
+
+
+
+
+@login_required
+def set_default_address(request, pk):
+    Address.objects.filter(user=request.user, default=True).update(default=False)
+    address = Address.objects.get(pk=pk)
+    address.default = True
+    address.save()
+    messages.success(request, 'Default address changed')
+    return redirect('add_address')
