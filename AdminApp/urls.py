@@ -28,6 +28,8 @@ urlpatterns = [
     path('deletevarient/<varient_id>',views.deletevarient,name='deletevarient'),
     path('blockvarient/<varient_id>',views.blockvarient,name='blockvarient'),
     path('unblockvarient/<varient_id>',views.unblockvarient,name='unblockvarient'),
-
+    path('activeorders',views.activeorders,name='activeorders'),
+    path('order_history',views.order_history,name='order_history'),
+    path('order_status_change', views.order_status_change, name='order_status_change'),
 
 ]

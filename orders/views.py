@@ -7,8 +7,19 @@ from cart.models import CartItem
 from .forms import OrderForm
 import datetime
 import json
-
+import razorpay
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseBadRequest
+from django.contrib import messages
 # Create your views here.
+
+
+
+
+# authorize razorpay client with API Keys.
+razorpay_client = razorpay.Client(
+    auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
 
 
 def place_order(request,total = 0,quantity = 0):
@@ -61,6 +72,15 @@ def place_order(request,total = 0,quantity = 0):
             order_number = current_date + str(data.id)
             data.order_number = order_number
             data.save()
+            
+            currency = 'INR'
+            amount = grand_total*100
+            razorpay_order = razorpay_client.order.create(dict(amount=amount, currency=currency, payment_capture='0'))
+            print(razorpay_order)
+
+            # order id of newly created order.
+            razorpay_order_id = razorpay_order['id']
+            callback_url = 'paymenthandler/'
 
             order = Order.objects.get(user=current_user,is_ordered=False,order_number=order_number)
             addresses = Address.objects.filter(user=request.user)
@@ -72,12 +92,68 @@ def place_order(request,total = 0,quantity = 0):
                 'grand_total':grand_total,
                 'in_dollar' : in_dollar,
                 'addresses':addresses,
+                'razorpay_order_id':razorpay_order_id,
+                'razorpay_merchant_key': settings.RAZOR_KEY_ID,
+                'razorpay_amount':amount,
+                'currency':currency,
+                'callback_url':callback_url,
             }
 
             return render(request,'user/payments.html',context)
     else:
         return redirect('checkout')
 
+
+@csrf_exempt
+def paymenthandler(request,total = 0,quantity = 0):
+    # only accept POST request.
+    grand_total = 0
+    tax = 0
+    current_user = request.user 
+    cart_items = CartItem.objects.filter(user=current_user)
+    for  cart_item in cart_items:
+            total = total + (cart_item.product.price * cart_item.quantity)
+            quantity = quantity + cart_item.quantity
+            tax = (2 * total)/100
+            grand_total = total + tax
+    print("asddfghjk")
+    if request.method == "POST":
+        try:
+            # get the required parameters from post request.
+            payment_id = request.POST.get('razorpay_payment_id', '')
+            razorpay_order_id = request.POST.get('razorpay_order_id', '')
+            signature = request.POST.get('razorpay_signature', '')
+            params_dict = {
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': payment_id,
+                'razorpay_signature': signature
+            }
+ 
+            # verify the payment signature.
+            result = razorpay_client.utility.verify_payment_signature(params_dict)
+            if result is None:
+                amount = grand_total*100 # Rs. 200
+                try:
+                    # capture the payemt
+                    razorpay_client.payment.capture(payment_id, amount)
+                    # render success page on successful caputre of payment
+                    messages.success(request,"success")
+                    return render(request,'user/paymentsuccess.html')
+                except:
+                    # if there is an error while capturing payment.
+                    messages.error(request,"failed")
+                    return render(request,'user/paymentfail.html')
+            else:
+                # if signature verification fails.
+                messages.error(request,"failed")
+                return render(request,'user/paymentfail.html')
+        except:
+ 
+            # if we don't find the required parameters in POST data
+            return HttpResponseBadRequest()
+    else:
+       # if other than POST request is made.
+        return HttpResponseBadRequest()
 
 
 def payments(request):
@@ -137,6 +213,9 @@ def payments(request):
 
     return JsonResponse(data)
     
+
+
+
 
 
 

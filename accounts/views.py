@@ -11,6 +11,7 @@ from cart.models import Cart, CartItem
 from cart.views import _cart_id
 import requests
 from orders.models import Order, OrderProduct
+from store.models import Product
 # Create your views here.
 
 
@@ -190,11 +191,21 @@ def userdashboard(request):
 
 @login_required(login_url='userlogin')
 def my_orders(request):
-    orders = Order.objects.filter(user=request.user,is_ordered=True).order_by('-created_at')
+    orders = OrderProduct.objects.filter(user=request.user,ordered=True).order_by('-created_at')
     context = {
         'orders':orders
     }
     return render(request,'user/my_orders.html',context)
+
+
+
+@login_required(login_url='userlogin')
+def cancel_order(request,pk):
+    product = OrderProduct.objects.get(pk=pk)
+    product.status = 'Canceled'
+    product.save()
+    return redirect('my_orders')
+
 
 
 
@@ -266,6 +277,13 @@ def order_detail(request,order_id):
     return render(request,'user/order_detail.html',context)
 
 
+# @login_required(login_url='userlogin')
+# def cancel_order(request):
+#     id = request.POST['id']
+#     cancelled_product = OrderProduct.objects.get(id=id)
+#     Product.objects.filter(id=cancelled_product.product.id).update(stock=cancelled_product.product.stock + cancelled_product.quantity)
+#     OrderProduct.objects.filter(id=id).update(status='Cancelled')
+#     return JsonResponse({'success': True})
 
 
 
@@ -310,12 +328,6 @@ def edit_address(request, pk):
     }
     return render(request, 'user/edit-address.html', context)
 
-
-# @login_required
-# def delete_address(request, pk):
-#     if request.is_ajax():
-#         Address.objects.get(pk=pk).delete()
-#         return redirect('add_address')
 
 @login_required
 def delete_address(request,pk):

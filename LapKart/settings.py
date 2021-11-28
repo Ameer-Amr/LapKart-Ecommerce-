@@ -166,3 +166,7 @@ MESSAGE_TAGS = {
 ACCOUNT_SID = config('account_sid')
 AUTH_TOKEN = config('auth_token')
 SERVICES_KEY_OTP = config('services_key_otp')
+
+#razorpay
+RAZOR_KEY_ID = 'rzp_test_Yqjko6NjeiK8gU'
+RAZOR_KEY_SECRET = 'Ten3u0Dxv3zkuetxUpMFy2VM'
