@@ -1,13 +1,14 @@
+from django.db import models
 from django.db.models import fields
 from django.forms import ModelForm
-from.models import Product, Variation
+from.models import Product, ReviewRating, Variation
 from django.forms.widgets import TextInput
 
 
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['product_name','slug','images','images1','images2','images3','description','price','category',]
+        fields = ['product_name','brand_name','slug','images','images1','images2','images3','description','price','category','stock']
 
 
 class VarientForm(ModelForm):
@@ -20,3 +21,8 @@ class VarientForm(ModelForm):
    }),
 }
 
+
+class ReviewForm(ModelForm):
+    class Meta:
+        model = ReviewRating
+        fields = ['subject','review','rating',]

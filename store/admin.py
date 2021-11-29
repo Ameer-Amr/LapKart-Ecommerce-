@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db import models
-from .models import Product, Variation
+from .models import Product, Variation,ReviewRating
 import admin_thumbnails
 # Register your models here.
 
@@ -9,7 +9,7 @@ import admin_thumbnails
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('product_name','category','modified_date','is_available','price','stock')
+    list_display = ('product_name','brand_name','category','modified_date','is_available','price','stock')
     prepopulated_fields = {'slug':('product_name',)}
 
 
@@ -26,3 +26,4 @@ class VariationAdmin(admin.ModelAdmin):
 
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Variation,VariationAdmin)
+admin.site.register(ReviewRating)

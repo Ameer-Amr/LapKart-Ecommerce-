@@ -23,11 +23,12 @@
     
     <!-- Font awesome 5 -->
     <link href="{% static 'fonts/fontawesome/css/all.min.css' %}" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- custom style -->
     <link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'css/responsive.css' %}" rel="stylesheet" media="only screen and (max-width: 1200px)" />
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">    
 
     <!-- sweet alert -->
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -55,7 +56,7 @@
 
 <body>
 <!-- For Navbar  -->
-
+<div class="container">
     {% block navbar %}
     <header class="section-header">
         <!-- <nav class="navbar p-md-0 navbar-expand-sm navbar-light border-bottom">
@@ -87,7 +88,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-2 col-md-3 col-6">
                         <a href="{% url 'Homepage' %}" class="brand-wrap">
-                            <img class="logo" src="{% static './images/logo.png' %}">
+                          <h3 style="color: #B2B1B9;"><b style="color: #FFD523;">Lap</b>Kart</h3>
                         </a> <!-- brand-wrap.// -->
                     </div>
                     <div class="col-lg col-sm col-md col-6 flex-grow-0">
@@ -207,6 +208,7 @@
 </footer>
 <!-- ========================= FOOTER END // ========================= -->
 {% endblock %} 
+</div>
 </body>
 
 </html>

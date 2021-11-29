@@ -204,6 +204,9 @@ def cancel_order(request,pk):
     product = OrderProduct.objects.get(pk=pk)
     product.status = 'Canceled'
     product.save()
+    item = Product.objects.get(pk=product.product.id)
+    item.stock += product.quantity
+    item.save()
     return redirect('my_orders')
 
 
