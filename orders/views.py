@@ -31,15 +31,24 @@ def place_order(request,total = 0,quantity = 0):
     if cart_count <= 0:
         return redirect('store')
 
+    
     grand_total = 0
     tax = 0
     in_dollar = 0
+    offer_price = 0
     for  cart_item in cart_items:
-        total = total + (cart_item.product.price * cart_item.quantity)
-        quantity = quantity + cart_item.quantity
+            if cart_item.product.Offer_Price():
+                offer_price=Product.Offer_Price(cart_item.product)
+                print(offer_price['new_price'])
+                total = total+(offer_price['new_price'] * cart_item.quantity)
+                print(total) 
+            else:
+                total = total+(cart_item.product.price * cart_item.quantity)
     tax = (2 * total)/100
     grand_total = total + tax
     in_dollar = round(grand_total/70) 
+    # discount = int(offer_price['discount'])
+
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
@@ -184,7 +193,12 @@ def payments(request):
         orderproduct.user_id = request.user.id
         orderproduct.product_id =item.product_id
         orderproduct.quantity = item.quantity
-        orderproduct.product_price = item.product.price
+        if item.product.Offer_Price():
+            offer_price = Product.Offer_Price(item.product)
+            price = offer_price['new_price']
+            orderproduct.product_price = price
+        else:
+            orderproduct.product_price = item.product.price
         orderproduct.ordered = True
         orderproduct.save()
 

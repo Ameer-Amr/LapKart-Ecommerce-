@@ -9,15 +9,16 @@
 
 <div class="container" >
 <section>
-    <div class="row active_user_table">
-        <div class="table-responsive">
+    <div class="row active_user_table mt-5">
+        <div class="table-responsive shadow p-3 mb-5 bg-white rounded">
             <!-- <div>
                 <a href="#"><button class="btn btn-primary">Add Brand</button></a>
             </div> -->
             <caption>
-                <p class="table_caption"> Brand List</p>
+                <p class="table_caption  font-weight-bold" style="color: #007bff;"> Brand List</p>
             </caption>
             <table class="data-table table hover multiple-select-row nowrap" id="myTable">
+                <div class=" d-flex justify-content-center "><a href="{% url 'addbrand' %}" class="btn btn-info btn-sm col-4">Add Brand</a><br></div>
                 <thead>
                     <tr>
                         <th scope="col">No.</th>

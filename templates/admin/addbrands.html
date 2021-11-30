@@ -8,7 +8,7 @@
 <div class="container ">
    <div class="row d-flex justify-content-center align-items-center">
         <div class="col-12 col-md-10 ">
-            <div class="card" style="border-radius: 8px;">
+            <div class="card shadow p-3 mb-5 bg-white rounded" style="border-radius: 8px;">
                 <div class="card-body p-5">    
                     <h4>Add Brand</h4>
                     <form action="{% url 'addbrand' %}" method="post" enctype="multipart/form-data" class="col-xl-6">
@@ -25,6 +25,7 @@
         </div>  
     </div> 
 </div>
+
 {% endblock %}
 
 {%block script%}
@@ -97,5 +98,16 @@
 	      });
 	    });
 	});	
+</script>
+<script>
+	$( document ).ready(function() {
+		console.log( "ready!" );
+	});
+	$("#id_brand_name").keyup(function() {
+		var Text = $(this).val();
+		Text = Text.toLowerCase();
+		Text = Text.replace(/[^a-zA-Z0-9]+/g,'-');
+		$("#id_slug").val(Text);        
+	  });
 </script>
 {%endblock%}

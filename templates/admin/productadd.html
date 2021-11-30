@@ -99,4 +99,17 @@
 	    });
 	});	
 </script>
+
+
+<script>
+	$( document ).ready(function() {
+		console.log( "ready!" );
+	});
+	$("#id_product_name").keyup(function() {
+		var Text = $(this).val();
+		Text = Text.toLowerCase();
+		Text = Text.replace(/[^a-zA-Z0-9]+/g,'-');
+		$("#id_slug").val(Text);        
+	  });
+</script>
 {%endblock%}

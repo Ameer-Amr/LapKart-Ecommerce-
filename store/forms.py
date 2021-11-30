@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import fields
 from django.forms import ModelForm
-from.models import Product, ReviewRating, Variation
+from.models import Banners, Product, ReviewRating, Variation
 from django.forms.widgets import TextInput
 
 
@@ -26,3 +26,11 @@ class ReviewForm(ModelForm):
     class Meta:
         model = ReviewRating
         fields = ['subject','review','rating',]
+
+
+class BannerForm(ModelForm):
+    class Meta:
+        model = Banners
+        fields = ['image','product','alt_text']
+
+   

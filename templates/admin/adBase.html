@@ -213,10 +213,9 @@
 		</div>
 	</div>
     <div class="left-side-bar">
-		<div class="brand-logo">
+		<div class="brand-logo" style="background-color: #6B7AA1;">
 			<a href="#">
-				<img src="{% static 'vendors/images/deskapp-logo.svg' %}" alt="" class="dark-logo">
-				<img src="{% static 'vendors/images/deskapp-logo-white.svg' %}" alt="" class="light-logo">
+				<h3 style="color: #cacace;" class="font-weight-bold"><b style="color: #FFD523;">Lap</b>Kart</h3>
 			</a>
 			<div class="close-sidebar" data-toggle="left-sidebar-close">
 				<i class="ion-close-round"></i>
@@ -291,8 +290,8 @@
 							<i class="micon dw dw-image-2"></i><span class="mtext">Banners</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="highchart.html">Existing Banners</a></li>
-							<li><a href="knob-chart.html">Add Banners</a></li>
+							<li><a href="{% url 'active_banners' %}">Existing Banners</a></li>
+							<li><a href="{% url 'add_banner' %}">Add Banners</a></li>
 							<li><a href="jvectormap.html">Edit Banners</a></li>
 						</ul>
 					</li>
@@ -310,8 +309,12 @@
 							<span class="micon dw dw-browser2"></span><span class="mtext">Offers</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="400.html">Existing Offers</a></li>
-							<li><a href="403.html">Add Offers</a></li>
+							<li><a href="{% url 'existing_brand_Offer' %}">Existing Brand Offers</a></li>
+							<li><a href="{% url 'existing_category_Offer' %}">Existing Category Offers</a></li>
+							<li><a href="{% url 'existing_product_Offer' %}">Existing Product Offers</a></li>
+							<li><a href="{% url 'add_brand_offer' %}">Add Brand Offer</a></li>
+							<li><a href="{% url 'add_category_offer' %}">Add Category Offer</a></li>
+							<li><a href="{% url 'add_product_offer' %}">Add Product Offer</a></li>	
 						</ul>
 					</li>
 

@@ -127,7 +127,6 @@
 	</aside> <!-- col.// -->
 	<aside class="col-lg-6">
 
-		<div class="card">
 		<div class="card-body">
 
             <table class="table table-borderless table-shopping-cart">
@@ -157,8 +156,18 @@
                     </td>
                     <td> 
                         <div class="price-wrap"> 
-                            <var class="price">Rs {{ cart_item.sub_total }}</var> 
-                            <small class="text-muted">Rs {{cart_item.product.price}} each </small> 
+                            {% if cart_item.product.Offer_Price %}
+                            <var class="price">Rs {{ cart_item.product.Offer_Price.new_price }}</var>
+                            <del  class="text-muted" style="font-size: 14px;">Rs {{cart_item.sub_total}}</del> <br>
+                           <small class="text-muted"
+                              >Rs {{cart_item.product.Offer_Price.new_price}} each
+                            </small>
+                            {% else %}
+                            <var class="price">Rs {{ cart_item.sub_total }}</var>
+                            <small class="text-muted"
+                            >Rs {{cart_item.sub_total}} each
+                          </small>
+                            {% endif %}
                         </div> <!-- price-wrap .// -->
                     </td>
                     

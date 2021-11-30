@@ -31,5 +31,13 @@ urlpatterns = [
     path('activeorders',views.activeorders,name='activeorders'),
     path('order_history',views.order_history,name='order_history'),
     path('order_status_change', views.order_status_change, name='order_status_change'),
+    path('add_brand_offer',views.add_brand_offer,name='add_brand_offer'),
+    path('existing_brand_Offer',views.existing_brand_Offer,name='existing_brand_Offer'),
+    path('add_category_offer',views.add_category_offer,name='add_category_offer'),
+    path('existing_category_Offer',views.existing_category_Offer,name='existing_category_Offer'),
+    path('add_product_offer',views.add_product_offer,name='add_product_offer'),
+    path('existing_product_Offer',views.existing_product_Offer,name='existing_product_Offer'),
+    path('add_banner',views.add_banner,name='add_banner'),
+    path('active_banners',views.active_banners,name='active_banners'),
 
 ]

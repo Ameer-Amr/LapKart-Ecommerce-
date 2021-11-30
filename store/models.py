@@ -56,9 +56,25 @@ class Product(models.Model):
             if self.productoffer.is_valid:
                 offer_price = (self.price * self.productoffer.discount)/100
                 new_price = self.price - offer_price
-            return {'new_price':new_price,'discount': self.productoffer.discount}
+                return {'new_price': new_price, 'discount': self.productoffer.discount}
+            raise
         except:
-            return None
+            try:
+                if self.brand_name.brandoffer.is_valid:
+                    offer_price = (self.price * self.brand_name.brandoffer.discount)/100
+                    new_price = self.price - offer_price
+                    return {'new_price':new_price,'discount': self.brand_name.brandoffer.discount}
+                raise
+            except:
+                try:
+                    if self.category.categoryoffer.is_valid:
+                        offer_price = (self.price * self.category.categoryoffer.discount)/100
+                        new_price = self.price - offer_price
+                        return {'new_price':new_price,'discount': self.category.categoryoffer.discount}
+                    raise
+                except:
+                    return None 
+
 
 
 
@@ -97,3 +113,12 @@ class ReviewRating(models.Model):
 
     def __str__(self):
         return self.subject
+
+
+class Banners(models.Model):
+    image = models.ImageField(upload_to='photos/banners',blank=True)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    alt_text = models.CharField(max_length=200)
+    
+    def __str__(self):
+        return self.alt_text

@@ -2,9 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+
+from offer.forms import BrandOfferForm, CategoryOfferForm, ProductOfferForm
+from offer.models import BrandOffer, CategoryOffer, ProductOffer
 from .forms import EditBrand, EditCategory, EditProduct, EditVarient
-from store.models import Product, Variation
-from store.forms import ProductForm, VarientForm
+from store.models import Banners, Product, Variation
+from store.forms import BannerForm, ProductForm, VarientForm
 from accounts.models import Account
 from category.models import category
 from category.forms import CategoryForm
@@ -323,3 +326,75 @@ def order_status_change(request):
     order_product.status = status
     order_product.save()
     return JsonResponse({'success': True})
+
+
+def add_brand_offer(request):
+    form = BrandOfferForm()
+    if request.method == 'POST':
+        form = BrandOfferForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('existing_brand_Offer')
+    context = {
+        'form': form
+    }
+    return render(request, 'admin/add_brand_offer.html', context)
+
+
+def existing_brand_Offer(request):
+    offers = BrandOffer.objects.order_by('id').all()
+    return render(request, 'admin/existing_brand_Offer.html', {'offers': offers})
+
+
+def add_category_offer(request):
+    form = CategoryOfferForm()
+    if request.method == 'POST':
+        form = CategoryOfferForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('existing_category_Offer')
+    context = {
+        'form': form
+    }
+    return render(request, 'admin/add_category_offer.html', context)
+
+
+def existing_category_Offer(request):
+    offers = CategoryOffer.objects.order_by('id').all()
+    return render(request, 'admin/existing_category_Offer.html', {'offers': offers})
+
+
+def add_product_offer(request):
+    form = ProductOfferForm()
+    if request.method == 'POST':
+        form = ProductOfferForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('existing_product_Offer')
+    context = {
+        'form': form
+    }
+    return render(request, 'admin/add_product_offer.html', context)
+
+
+def existing_product_Offer(request):
+    offers = ProductOffer.objects.order_by('id').all()
+    return render(request, 'admin/existing_product_Offer.html', {'offers': offers})
+
+
+def add_banner(request):
+    form = BannerForm()
+    if request.method == 'POST':
+        form = BannerForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('active_banners')
+    context = {
+        'form': form
+    }
+    return render(request, 'admin/add_banner.html', context)
+
+
+def active_banners(request):
+    banners = Banners.objects.all()
+    return render(request, 'admin/active_banners.html', {'banners': banners})

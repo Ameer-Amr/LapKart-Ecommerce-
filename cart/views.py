@@ -1,9 +1,11 @@
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404, redirect, render
 from cart.models import Cart, CartItem
 from django.contrib.auth.decorators import login_required
 from store.models import Product, Variation
 from accounts.models import Address
+
 
 # Create your views here.
 
@@ -188,7 +190,14 @@ def cart(request,total=0,quantity=0,cart_items=None):
             cart = Cart.objects.get(cart_id=_cart_id(request))
             cart_items = CartItem.objects.filter(cart=cart , is_active=True)
         for cart_item in cart_items:
-            total = total+(cart_item.product.price * cart_item.quantity)
+            if cart_item.product.Offer_Price():
+                offer_price=Product.Offer_Price(cart_item.product)
+                print(offer_price['new_price'])
+                total = total+(offer_price['new_price'] * cart_item.quantity)
+                print(total) 
+            else:
+                total = total+(cart_item.product.price * cart_item.quantity)
+             
             quantity = quantity + cart_item.quantity
         tax = (2 * total)/100
         grand_total = total + tax
