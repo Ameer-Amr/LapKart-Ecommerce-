@@ -334,7 +334,7 @@ def edit_address(request, pk):
 
 @login_required
 def delete_address(request,pk):
-    dlt =  Address.objects.filter(pk=pk,user=request.user)
+    dlt =  Address.objects.filter(id=pk)
     print(dlt)
     dlt.delete()
     messages.success(request,'Your Address Has been deleted')

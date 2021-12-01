@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models import fields
 from django.forms.fields import FileField
 from django.forms.widgets import CheckboxInput, FileInput, TextInput
+from offer.models import BrandOffer, CategoryOffer, ProductOffer
 from category.models import category
 
 from store.models import Product, Variation
@@ -48,3 +49,20 @@ class EditVarient(forms.ModelForm):
       'type': 'color'
    }),
 }
+
+class EditBrandOffer(forms.ModelForm):
+    class Meta:
+        model = BrandOffer
+        fields = ['brand_name', 'discount']
+
+
+class EditCategoryOffer(forms.ModelForm):
+    class Meta:
+        model = CategoryOffer
+        fields = ['category_name', 'discount']
+
+
+class EditProductOffer(forms.ModelForm):
+    class Meta:
+        model = ProductOffer
+        fields = ['product_name', 'discount']

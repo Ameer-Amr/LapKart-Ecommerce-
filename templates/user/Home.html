@@ -27,7 +27,7 @@
 			  {% else %}
 			<div class="carousel-item">
 				{% endif %}
-			<a href="#"><img src="{{ banner.image.url }}" class="d-block w-100 img-fluid rounded"></a>
+			<a href="{{banner.product.get_url}}"><img src="{{ banner.image.url }}" class="d-block w-100 img-fluid rounded"></a>
 		  </div>
 		  {% endfor %}
 		</div>

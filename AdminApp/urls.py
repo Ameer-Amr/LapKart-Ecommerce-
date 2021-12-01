@@ -40,4 +40,18 @@ urlpatterns = [
     path('add_banner',views.add_banner,name='add_banner'),
     path('active_banners',views.active_banners,name='active_banners'),
 
+    path('blockBrandOffer/<brand_id>',views.blockBrandOffer,name='blockBrandOffer'),
+    path('unblockBrandOffer/<brand_id>',views.unblockBrandOffer,name='unblockBrandOffer'),
+    path('editBrandOffer/<brand_id>',views.editBrandOffer,name='editBrandOffer'),
+    path('deleteBrandOffer/<brand_id>',views.deleteBrandOffer,name='deleteBrandOffer'),
+
+    path('blockCategoryOffer/<category_id>',views.blockCategoryOffer,name='blockCategoryOffer'),
+    path('unblockCategoryOffer/<category_id>',views.unblockCategoryOffer,name='unblockCategoryOffer'),
+    path('editCategoryOffer/<category_id>',views.editCategoryOffer,name='editCategoryOffer'),
+    path('deleteCategoryOffer/<category_id>',views.deleteCategoryOffer,name='deleteCategoryOffer'),
+
+    path('blockProductOffer/<product_id>',views.blockProductOffer,name='blockProductOffer'),
+    path('unblockProductOffer/<product_id>',views.unblockProductOffer,name='unblockProductOffer'),
+    path('editProductOffer/<product_id>',views.editProductOffer,name='editProductOffer'),
+    path('deleteProductOffer/<product_id>',views.deleteProductOffer,name='deleteProductOffer'),
 ]

@@ -1,11 +1,13 @@
+
+import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-
+from django.utils import timezone
 from offer.forms import BrandOfferForm, CategoryOfferForm, ProductOfferForm
 from offer.models import BrandOffer, CategoryOffer, ProductOffer
-from .forms import EditBrand, EditCategory, EditProduct, EditVarient
+from .forms import EditBrand, EditBrandOffer, EditCategory, EditCategoryOffer, EditProduct, EditProductOffer, EditVarient
 from store.models import Banners, Product, Variation
 from store.forms import BannerForm, ProductForm, VarientForm
 from accounts.models import Account
@@ -14,7 +16,7 @@ from category.forms import CategoryForm
 from brands.models import Brand
 from brands.form import BrandForm
 from django.http import JsonResponse
-from orders.models import OrderProduct, STATUS1
+from orders.models import Order, OrderProduct, STATUS1
 
 
 # Create your views here.
@@ -48,7 +50,19 @@ def signout(request):
 
 def dashboard(request):
     if request.session.has_key('key'):
-        return render(request, 'admin/dashboard.html')
+        current_year = timezone.now().year
+        order_detail = OrderProduct.objects.filter(created_at__lt = datetime.date(current_year,12,31 ), status = 'Delivered') #with the '__' we can access foreign key objects
+        monthly_order_count = []
+        month = timezone.now().month
+        print(month)
+        for i in range(1, month+1):
+            monthly_order = order_detail.filter(created_at__month=i).count()
+            monthly_order_count.append(monthly_order)
+        context = {
+            'order_detail':order_detail,
+            'monthly_order_count':monthly_order_count,
+    }
+        return render(request, 'admin/dashboard.html',context)
     else:
         return redirect('adminlogin')
 
@@ -214,7 +228,6 @@ def editProduct(request, product_id):
 
             except:
                 context = {'form': form}
-                # messages.info(request,"A user with that email address already exists.")
                 return render(request, 'admin/editproduct.html', context)
             return redirect('productlists')
 
@@ -398,3 +411,123 @@ def add_banner(request):
 def active_banners(request):
     banners = Banners.objects.all()
     return render(request, 'admin/active_banners.html', {'banners': banners})
+
+
+def blockBrandOffer(request, brand_id):
+    brandoff = BrandOffer.objects.get(pk=brand_id)
+    brandoff.is_valid = False
+    brandoff.save()
+    return redirect('existing_brand_Offer')
+
+
+def unblockBrandOffer(request, brand_id):
+    brandoff = BrandOffer.objects.get(pk=brand_id)
+    brandoff.is_valid = True
+    brandoff.save()
+    return redirect('existing_brand_Offer')
+
+
+def editBrandOffer(request, brand_id):
+    editBrandOff = BrandOffer.objects.get(pk=brand_id)
+    form = EditBrandOffer(instance=editBrandOff)
+    if request.method == 'POST':
+        form = EditBrandOffer(request.POST,instance=editBrandOff)
+        if form.is_valid():
+            try:
+                form.save()
+
+            except:
+                context = {'form': form}
+                # messages.info(request,"A user with that email address already exists.")
+                return render(request, 'admin/editBrandOffer.html', context)
+            return redirect('existing_brand_Offer')
+
+    context = {'form': form}
+    return render(request, 'admin/editBrandOffer.html', context)
+
+
+def deleteBrandOffer(request, brand_id):
+        dlt = BrandOffer.objects.get(pk=brand_id)
+        dlt.delete()
+        return redirect('existing_brand_Offer')
+
+
+def blockCategoryOffer(request, category_id):
+    categoryoff = CategoryOffer.objects.get(pk=category_id)
+    categoryoff.is_valid = False
+    categoryoff.save()
+    return redirect('existing_category_Offer')
+
+
+def unblockCategoryOffer(request, category_id):
+    categoryoff = CategoryOffer.objects.get(pk=category_id)
+    categoryoff.is_valid = True
+    categoryoff.save()
+    return redirect('existing_category_Offer')
+
+
+def editCategoryOffer(request, category_id):
+    editCategoryOff = CategoryOffer.objects.get(pk=category_id)
+    form = EditCategoryOffer(instance=editCategoryOff)
+    if request.method == 'POST':
+        form = EditCategoryOffer(request.POST,instance=editCategoryOff)
+        if form.is_valid():
+            try:
+                form.save()
+
+            except:
+                context = {'form': form}
+                # messages.info(request,"A user with that email address already exists.")
+                return render(request, 'admin/editCategoryOffer.html', context)
+            return redirect('existing_category_Offer')
+
+    context = {'form': form}
+    return render(request, 'admin/editCategoryOffer.html', context)
+
+
+def deleteCategoryOffer(request, category_id):
+    dlt = CategoryOffer.objects.get(pk=category_id)
+    dlt.delete()
+    return redirect('existing_category_Offer')
+
+
+
+
+
+def blockProductOffer(request, product_id):
+    productoff = ProductOffer.objects.get(pk=product_id)
+    productoff.is_valid = False
+    productoff.save()
+    return redirect('existing_product_Offer')
+
+
+def unblockProductOffer(request, product_id):
+    productoff = ProductOffer.objects.get(pk=product_id)
+    productoff.is_valid = True
+    productoff.save()
+    return redirect('existing_product_Offer')
+
+
+def editProductOffer(request, product_id):
+    editProductOff = ProductOffer.objects.get(pk=product_id)
+    form = EditProductOffer(instance=editProductOff)
+    if request.method == 'POST':
+        form = EditProductOffer(request.POST,instance=editProductOff)
+        if form.is_valid():
+            try:
+                form.save()
+
+            except:
+                context = {'form': form}
+                # messages.info(request,"A user with that email address already exists.")
+                return render(request, 'admin/editProductOffer.html', context)
+            return redirect('existing_product_Offer')
+
+    context = {'form': form}
+    return render(request, 'admin/editProductOffer.html', context)
+
+
+def deleteProductOffer(request, product_id):
+    dlt = ProductOffer.objects.get(pk=product_id)
+    dlt.delete()
+    return redirect('existing_product_Offer')
