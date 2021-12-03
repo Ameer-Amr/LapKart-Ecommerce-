@@ -17,6 +17,7 @@ from brands.models import Brand
 from brands.form import BrandForm
 from django.http import JsonResponse
 from orders.models import Order, OrderProduct, STATUS1
+from django.db.models import Sum
 
 
 # Create your views here.
@@ -49,7 +50,14 @@ def signout(request):
 
 
 def dashboard(request):
+    products = Product.objects.all()
+    total_revenue = Order.objects.aggregate(Sum('order_total'))
+    total_orders = Order.objects.filter(is_ordered=True).count()
+    total_products = Product.objects.filter(is_available=True).count()
+
     if request.session.has_key('key'):
+
+        #sales/orders
         current_year = timezone.now().year
         order_detail = OrderProduct.objects.filter(created_at__lt = datetime.date(current_year,12,31 ), status = 'Delivered') #with the '__' we can access foreign key objects
         monthly_order_count = []
@@ -58,9 +66,36 @@ def dashboard(request):
         for i in range(1, month+1):
             monthly_order = order_detail.filter(created_at__month=i).count()
             monthly_order_count.append(monthly_order)
+
+
+        #status
+        new_count = OrderProduct.objects.filter(status='New').count()
+        placed_count = OrderProduct.objects.filter(status='Placed').count()
+        shipped_count = OrderProduct.objects.filter(status='Shipped').count()
+        accepted_count = OrderProduct.objects.filter(status='Accepted').count()
+        delivered_count = OrderProduct.objects.filter(status='Delivered').count()
+        cancelled_count = OrderProduct.objects.filter(status='Canceled').count()
+       
+        #most moving product
+        most_moving_product_count = []
+        most_moving_product = []
+        for i in products:
+            most_moving_product.append(i)
+            most_moving_product_count.append(
+                OrderProduct.objects.filter(product=i, status="Delivered").count())
+        
+        print(most_moving_product)
+        print(most_moving_product_count)
+        
         context = {
             'order_detail':order_detail,
             'monthly_order_count':monthly_order_count,
+            'status_counter':[new_count,placed_count,shipped_count,accepted_count,delivered_count,cancelled_count],
+            'most_moving_product_count':most_moving_product_count,
+            'most_moving_product':most_moving_product,
+            'total_revenue':total_revenue,
+            'total_orders':total_orders,
+            'total_products':total_products  
     }
         return render(request, 'admin/dashboard.html',context)
     else:

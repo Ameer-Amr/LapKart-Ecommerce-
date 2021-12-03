@@ -27,9 +27,9 @@
       <a href="{% url 'store' %}" class="btn btn-primary col-6">Shop Now</a>
     </div>
     {% else %}
-		<div class="card-body">
-			<div class="row"> 
-				<div class="col-md-12">
+		<div class="card-body  shadow p-3 mb-5 bg-white rounded">
+			<div class="row "> 
+				<div class="col-md-12 ">
                     <table class="table table-hover">
                         <thead>
                           <tr>
@@ -37,8 +37,8 @@
                             <th scope="col">Product Name</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Amount Paid</th>
-                            <th scope="col">Status</th>
                             <th scope="col">Date</th>
+                            <th scope="col">Status</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -49,11 +49,19 @@
                             <td>{{order.quantity}}</td>
                             <td>Rs {{order.product_price}}</td>
                             <td>{{order.created_at}}</td>
-                            <td>{{order.status}}</td>
+                          
                             {% if order.status == 'New' %}
                             <td><a href="{%  url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-danger">Cancel</a></td>
-                            {% else %}
-                            <td><a href="#" class="btn btn-sm btn-outline-warning">Cancelled</a></td>
+                            {% elif order.status == 'Canceled'  %}
+                            <td><a href="#" class="btn btn-sm btn-warning">Cancelled</a></td>
+                            {% elif order.status == 'Placed'%}
+                            <td><a href="{%  url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-primary">Placed</a>
+                            {% elif order.status == 'Shipped'%}
+                            <td><a href="{%  url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-info">Shipped</a>
+                            {% elif order.status == 'Accepted'%}
+                            <td><a href="{%  url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-dark">Accepted</a>
+                            {% elif order.status == 'Delivered'%}
+                            <td><a href="#" class="btn btn-sm btn-success">Delivered</a>
                             {% endif %}
                           </tr>
                       {% endfor %}

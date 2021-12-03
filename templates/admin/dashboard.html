@@ -22,114 +22,169 @@
 				</div>
 			</div>
 
-			<div class="row">
-				<div class="col-xl-3 mb-30">
+			<div class="row d-flex justify-content-between">
+				<div class="col-xl-3 mb-30 shadow p-3 mb-5 bg-white rounded">
 					<div class="card-box height-100-p widget-style1">
 						<div class="d-flex flex-wrap align-items-center">
-							<div class="progress-data">
-								<div id="chart"></div>
-							</div>
+							<div class="p-2 rounded-circle col-4 text-center" style="font-size: xx-large; background-color: #6B7AA1;">
+								<i class="fas fa-rupee-sign"></i>
+							</div> 
 							<div class="widget-data">
-								<div class="h4 mb-0">2020</div>
-								<div class="weight-600 font-14">Contact</div>
+								<div class="h4 mb-0">{{total_revenue.order_total__sum}}</div>
+								<div class="weight-600 font-14">Total Revenue</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-3 mb-30">
+				<div class="col-xl-3 mb-30 shadow p-3 mb-5 bg-white rounded">
 					<div class="card-box height-100-p widget-style1">
 						<div class="d-flex flex-wrap align-items-center">
-							<div class="progress-data">
-								<div id="chart2"></div>
-							</div>
+							<div class="p-2 rounded-circle col-4 text-center" style="font-size: xx-large; background-color: #FFD523;">
+								<i class="fas fa-truck"></i>
+							</div> 
 							<div class="widget-data">
-								<div class="h4 mb-0">400</div>
-								<div class="weight-600 font-14">Deals</div>
+								<div class="h4 mb-0">{{total_orders}}</div>
+								<div class="weight-600 font-14">Total Orders</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-3 mb-30">
+				<div class="col-xl-3 mb-30 shadow p-3 mb-5 bg-white rounded">
 					<div class="card-box height-100-p widget-style1">
 						<div class="d-flex flex-wrap align-items-center">
-							<div class="progress-data">
-								<div id="chart3"></div>
-							</div>
+							<div class="p-2 rounded-circle col-4 text-center" style="font-size: xx-large; background-color: #2DAD49;">
+								<i class="fas fa-laptop"></i>
+							</div> 
 							<div class="widget-data">
-								<div class="h4 mb-0">350</div>
-								<div class="weight-600 font-14">Campaign</div>
+								<div class="h4 mb-0">{{total_products}}</div>
+								<div class="weight-600 font-14">Total Products</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-3 mb-30">
-					<div class="card-box height-100-p widget-style1">
-						<div class="d-flex flex-wrap align-items-center">
-							<div class="progress-data">
-								<div id="chart4"></div>
-							</div>
-							<div class="widget-data">
-								<div class="h4 mb-0">$6060</div>
-								<div class="weight-600 font-14">Worth</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 
-	<canvas id="myChart" width="200" height="100"></canvas>
+			</div>
+			<div class="row mt-7 d-flex justify-content-around">
+				
+			<div class="col-12 col-lg-5 card shadow p-3 mb-5 bg-white rounded">
+				<p class="mt-4">Total Sales</p>
+                <canvas id="myChart" width="400" height="400"></canvas>
+            </div>
+            <div class="col-12 col-lg-5 card shadow p-3 mb-5 bg-white rounded">
+				<p class="mt-4">Order Status</p>
+                <canvas id="order_status" width="400" height="400"></canvas>
+            </div>
+			<div class="col-12 col-lg-5 card mt-4 shadow p-3 mb-5 bg-white rounded">
+				<p class="mt-4">Most Moving Products</p>
+                <canvas id="moving_products" width="400" height="400"></canvas>
+            </div>
+			</div>
 <script>
-	
-		const ctx = document.getElementById('myChart').getContext('2d');
-		const myChart = new Chart(ctx, {
-			type: 'bar',
-			data: {
-				labels: ['January', 'February', 'March', 'April', 'May', 'June','July', 'August', 'Semptember', 'October', 'November', 'December'],
+
+        const myChartData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June','July', 'August', 'Semptember', 'October', 'November', 'December'],
+            datasets: [{
+                label: 'My First Dataset',
+                data: {{ monthly_order_count }},
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+        const myChart = document.getElementById('myChart').getContext('2d');
+        const myChartChart = new Chart(myChart, {
+            type: 'doughnut',
+            data: myChartData,
+        })
+
+
+
+			const order_statusData = {
+				labels: ['New', 'Placed', 'Shipped', 'Accepted', 'Delivered', 'Cancelled',],
 				datasets: [{
-					label: '# of Votes',
-					data: {{ monthly_order_count}},
+					label: 'Most moving brands',
+					data:  {{ status_counter}},
 					backgroundColor: [
-						'rgba(255, 99, 132, 0.2)',
-						'rgba(54, 162, 235, 0.2)',
-						'rgba(255, 206, 86, 0.2)',
-						'rgba(75, 192, 192, 0.2)',	
-						'rgba(153, 102, 255, 0.2)',
-						'rgba(255, 159, 64, 0.2)',
-						'rgba(255, 99, 132, 0.2)',
-						'rgba(54, 162, 235, 0.2)',
-						'rgba(255, 206, 86, 0.2)',
-						'rgba(75, 192, 192, 0.2)',
-						'rgba(153, 102, 255, 0.2)',
-						'rgba(255, 159, 64, 0.2)',
+						'rgb(255, 99, 132)',
+						'rgb(255, 159, 64)',
+						'rgb(255, 205, 86)',
+						'rgb(75, 192, 192)',
+						'rgb(54, 162, 235)',
+						'rgb(153, 102, 255)',
+						'rgb(201, 203, 207)'
 					],
-					borderColor: [
-						'rgba(255, 99, 132, 1)',
-						'rgba(54, 162, 235, 1)',
-						'rgba(255, 206, 86, 1)',
-						'rgba(75, 192, 192, 1)',
-						'rgba(153, 102, 255, 1)',
-						'rgba(255, 159, 64, 1)',
-						'rgba(255, 99, 132, 1)',
-						'rgba(54, 162, 235, 1)',
-						'rgba(255, 206, 86, 1)',
-						'rgba(75, 192, 192, 1)',
-						'rgba(153, 102, 255, 1)',
-						'rgba(255, 159, 64, 1)',
-					],
-					borderWidth: 1, 
+					hoverOffset: 4
 				}]
-			},
-			options: {
-				scales: {
-					y: {
-						beginAtZero: true
+			};
+			const order_status = document.getElementById('order_status').getContext('2d');
+			const order_statusChart = new Chart(order_status, {
+				type: 'pie',
+				data:  order_statusData,
+	
+			})
+
+			
+
+
+			const most_moving_productLabel = [
+			{% for i in most_moving_product%}
+			'{{ i }}',
+		{% endfor %}
+			]
+			const moving_products = document.getElementById('moving_products').getContext('2d');
+			const moving_productsChart = new Chart(moving_products, {
+				type: 'bar',
+				data: {
+					labels: most_moving_productLabel,
+		
+					datasets: [{
+						label: '# of Votes',
+						data: {{ most_moving_product_count}},
+						backgroundColor: [
+							'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',	
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)',
+							'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)',
+						],
+						borderColor: [
+							'rgba(255, 99, 132, 1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)',
+							'rgba(255, 99, 132, 1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)',
+						],
+						borderWidth: 1, 
+					}]
+				},
+				options: {
+					scales: {
+						y: {
+							beginAtZero: true
+						}
 					}
 				}
-			}
-		});
+			});
+			
 
 </script>
-
 
 			<!-- <div class="row">
 				<div class="col-xl-8 mb-30">
