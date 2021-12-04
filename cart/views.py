@@ -5,8 +5,11 @@ from cart.models import Cart, CartItem
 from django.contrib.auth.decorators import login_required
 from store.models import Product, Variation
 from accounts.models import Address
-
-
+from datetime import date
+from coupon.models import Coupon, ReviewCoupon
+from django.views.decorators.cache import never_cache
+from django.http.response import  JsonResponse
+import math
 # Create your views here.
 
 
@@ -215,6 +218,7 @@ def cart(request,total=0,quantity=0,cart_items=None):
 
 @login_required(login_url='userlogin')
 def checkout(request,total=0,quantity=0,cart_items=None):
+
         tax = 0
         grand_total = 0
         try:
@@ -225,10 +229,17 @@ def checkout(request,total=0,quantity=0,cart_items=None):
                 cart = Cart.objects.get(cart_id=_cart_id(request))
                 cart_items = CartItem.objects.filter(cart=cart , is_active=True)
             for cart_item in cart_items:
-                total = total+(cart_item.product.price*cart_item.quantity)
-                quantity = quantity+cart_item.quantity
+                if cart_item.product.Offer_Price():
+                    offer_price=Product.Offer_Price(cart_item.product)
+                    print(offer_price['new_price'])
+                    total = total+(offer_price['new_price'] * cart_item.quantity)   
+                    print(total) 
+                else:
+                    total = total+(cart_item.product.price * cart_item.quantity)
             tax = (2 * total)/100
             grand_total = total+tax
+            if 'discount_price' in request.session:
+                grand_total = request.session['discount_price']
         except ObjectDoesNotExist:
             pass #just ignore
 
@@ -238,6 +249,52 @@ def checkout(request,total=0,quantity=0,cart_items=None):
         'cart_items':cart_items,
         'tax':tax,
         'grand_total':grand_total,
-        'addresses':addresses
+        'addresses':addresses,
+        
         }
         return render(request,'user/checkout.html',context)
+
+
+@never_cache
+@login_required(login_url='userlogin')
+def Check_coupon(request):
+    if 'coupon_code' in request.session:
+        del request.session['coupon_code']
+        del request.session['amount_pay']
+        del request.session['discount_price']
+
+    flag = 0
+    discount_price = 0
+    amount_pay = 0
+    coupon_code = request.POST.get('coupon_code')
+    grand_total = float(request.POST.get('grand_total'))
+
+    if Coupon.objects.filter(code=coupon_code).exists():
+        coupon = Coupon.objects.get(code=coupon_code)
+        print(coupon)
+        if coupon.active == True:
+            flag = 1
+            if not ReviewCoupon.objects.filter(user=request.user, coupon = coupon):
+                today = date.today()
+                
+                if coupon.valid_from <= today and coupon.valid_to >= today:
+                    discount_price = grand_total - coupon.discount
+
+                    print(discount_price)
+                    amount_pay = grand_total-discount_price
+                    print(amount_pay)
+                    flag = 2
+                    request.session['amount_pay'] = amount_pay
+                    request.session['coupon_code'] = coupon_code
+                    request.session['discount_price'] = discount_price
+
+                    print('asfghjsftsfT333333')     
+                
+    context = {
+        'amount_pay': amount_pay,
+        'flag': flag,
+        'discount_price': discount_price,
+        'coupon_code':coupon_code
+    }   
+ 
+    return JsonResponse(context)

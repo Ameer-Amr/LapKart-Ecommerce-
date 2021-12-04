@@ -23,7 +23,16 @@
         <div class="card">
             <h5 class="card-header">Payment Method</h5>
             <div class="card-body">
-              <p class="card-text">PayPal</p>
+              <p class="card-text">
+
+                {% if payment_type == 'Razorpay' %}
+                Razorpay
+                {% elif payment_type == 'PayPal' %}
+                PayPal
+                {% elif payment_type == 'cod' %}
+                Cash On Delivery
+                {% endif %}
+              </p>
             </div>
         </div>
         <div class="card">
@@ -93,7 +102,11 @@
             </dl>
             <dl class="dlist-align">
               <dt>Discount:</dt>
-              <dd class="text-right" style="color: green;">{{discount}}%</dd>
+              <dd class="text-right text-success b">{{discount}}%</dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt>Coupon Applied:</dt>
+              <dd class="text-right text-success b">-{{amount_pay}}</dd>
             </dl>
             <dl class="dlist-align">
               <dt>Grand Total:</dt>
@@ -108,19 +121,31 @@
               </dd>
             </dl>
             <hr />
+
+
+
+
             <p class="text-center mb-3">
               <img
                 src="{% static './images/misc/payments.png' %}"
                 height="26"
               />
             </p>
+            {% if payment_type == 'Razorpay' %}
             <div class="btn_container">
               <!-- razorpay Button -->
               <button class="btn btn-outline-primary col-12" id="pay-btn">Razorpay</button>
             </div>
+            {% elif payment_type == 'PayPal' %}
             <div id="paypal-button-container" class="mt-3">
                 <!-- PayPal Button Will Load -->
             </div>
+            {% elif payment_type == 'cod' %}
+            <div class="btn_container">
+              <!-- razorpay Button -->
+              <button class="btn btn-outline-primary col-12">Cash on delivery</button>
+            </div>
+            {% endif %}
 
           </div>
           <!-- card-body.// -->
@@ -246,7 +271,6 @@
     e.preventDefault();
   };
 </script>
-
 
 
 

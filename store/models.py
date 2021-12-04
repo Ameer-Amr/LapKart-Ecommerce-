@@ -73,7 +73,7 @@ class Product(models.Model):
                         return {'new_price':new_price,'discount': self.category.categoryoffer.discount}
                     raise
                 except:
-                    return None 
+                    return {'new_price': self.price}
 
 
 

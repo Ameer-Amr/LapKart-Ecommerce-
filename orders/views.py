@@ -40,15 +40,19 @@ def place_order(request,total = 0,quantity = 0):
             if cart_item.product.Offer_Price():
                 offer_price=Product.Offer_Price(cart_item.product)
                 print(offer_price['new_price'])
-                total = total+(offer_price['new_price'] * cart_item.quantity)
+                total = total+(offer_price['new_price'] * cart_item.quantity)   
                 print(total) 
             else:
                 total = total+(cart_item.product.price * cart_item.quantity)
     tax = (2 * total)/100
     grand_total = total + tax
+    if 'discount_price' in request.session:
+        grand_total = request.session['discount_price']
+        print(grand_total)
     in_dollar = round(grand_total/70) 
-    # discount = int(offer_price['discount'])
-
+    discount = int(offer_price['discount'])
+    amount_pay = request.session['amount_pay']
+   
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
@@ -71,7 +75,7 @@ def place_order(request,total = 0,quantity = 0):
             data.tax = tax
             data.ip = request.META.get('REMOTE_ADDR')
             data.save()
-
+            
             # generate order number
             yr = int(datetime.date.today().strftime('%Y'))
             dt = int(datetime.date.today().strftime('%d'))
@@ -84,6 +88,7 @@ def place_order(request,total = 0,quantity = 0):
             
             currency = 'INR'
             amount = grand_total*100
+            request.session['razorpay_amount']=amount
             razorpay_order = razorpay_client.order.create(dict(amount=amount, currency=currency, payment_capture='0'))
             print(razorpay_order)
 
@@ -91,6 +96,8 @@ def place_order(request,total = 0,quantity = 0):
             razorpay_order_id = razorpay_order['id']
             callback_url = 'paymenthandler/'
 
+            payment_type = request.POST['payment']
+            print(payment_type)
             order = Order.objects.get(user=current_user,is_ordered=False,order_number=order_number)
             addresses = Address.objects.filter(user=request.user)
             context = {
@@ -98,6 +105,7 @@ def place_order(request,total = 0,quantity = 0):
                 'cart_items':cart_items,
                 'total':total,
                 'tax':tax,
+                'discount':discount,
                 'grand_total':grand_total,
                 'in_dollar' : in_dollar,
                 'addresses':addresses,
@@ -106,6 +114,8 @@ def place_order(request,total = 0,quantity = 0):
                 'razorpay_amount':amount,
                 'currency':currency,
                 'callback_url':callback_url,
+                'amount_pay':amount_pay,
+                'payment_type':payment_type
             }
 
             return render(request,'user/payments.html',context)
@@ -116,16 +126,6 @@ def place_order(request,total = 0,quantity = 0):
 @csrf_exempt
 def paymenthandler(request,total = 0,quantity = 0):
     # only accept POST request.
-    grand_total = 0
-    tax = 0
-    current_user = request.user 
-    cart_items = CartItem.objects.filter(user=current_user)
-    for  cart_item in cart_items:
-            total = total + (cart_item.product.price * cart_item.quantity)
-            quantity = quantity + cart_item.quantity
-            tax = (2 * total)/100
-            grand_total = total + tax
-    print("asddfghjk")
     if request.method == "POST":
         try:
             # get the required parameters from post request.
@@ -141,7 +141,7 @@ def paymenthandler(request,total = 0,quantity = 0):
             # verify the payment signature.
             result = razorpay_client.utility.verify_payment_signature(params_dict)
             if result is None:
-                amount = grand_total*100 # Rs. 200
+                amount =  request.session['razorpay_amount']
                 try:
                     # capture the payemt
                     razorpay_client.payment.capture(payment_id, amount)

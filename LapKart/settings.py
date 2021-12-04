@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'cart',
     'orders',
     'offer',
+    'coupon',
     
 ]
 
