@@ -54,4 +54,15 @@ urlpatterns = [
     path('unblockProductOffer/<product_id>',views.unblockProductOffer,name='unblockProductOffer'),
     path('editProductOffer/<product_id>',views.editProductOffer,name='editProductOffer'),
     path('deleteProductOffer/<product_id>',views.deleteProductOffer,name='deleteProductOffer'),
+
+    path('coupon_lists',views.coupon_lists,name='coupon_lists'),
+    path('add_coupon',views.add_coupon,name='add_coupon'),
+
+    path('prouduct_report',views.prouduct_report,name='prouduct_report'),
+    path('product_export_csv',views.product_export_csv,name='product_export_csv'),
+    path('product_export_pdf',views.product_export_pdf,name='product_export_pdf'),
+    path('orders_export_csv',views.orders_export_csv,name='orders_export_csv'),
+    path('orders_export_pdf',views.orders_export_pdf,name='orders_export_pdf'),
+    path('sales_export_csv',views.sales_export_csv,name='sales_export_csv'),
+    path('sales_export_pdf',views.sales_export_pdf,name='sales_export_pdf'),
 ]

@@ -51,15 +51,15 @@
                             <td>{{order.created_at}}</td>
                           
                             {% if order.status == 'New' %}
-                            <td><a href="{%  url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-danger">Cancel</a></td>
+                            <td><a href="{%  url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-danger" onclick="cancelOrder()">Cancel</a></td>
                             {% elif order.status == 'Canceled'  %}
                             <td><a href="#" class="btn btn-sm btn-warning">Cancelled</a></td>
                             {% elif order.status == 'Placed'%}
-                            <td><a href="{%  url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-primary">Placed</a>
+                            <td><a href="{%  url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-primary"  onclick="cancelOrder()">Placed</a>
                             {% elif order.status == 'Shipped'%}
-                            <td><a href="{%  url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-info">Shipped</a>
+                            <td><a href="{%  url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-info"  onclick="cancelOrder()">Shipped</a>
                             {% elif order.status == 'Accepted'%}
-                            <td><a href="{%  url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-dark">Accepted</a>
+                            <td><a href="{%  url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-dark"  onclick="cancelOrder()">Accepted</a>
                             {% elif order.status == 'Delivered'%}
                             <td><a href="#" class="btn btn-sm btn-success">Delivered</a>
                             {% endif %}
@@ -84,5 +84,26 @@
 <!-- ========================= SECTION CONTENT END// ========================= -->
 
 {% endblock %}
+<script>
+	function cancelOrder() {
+		event.preventDefault();
+		var dlt = event.currentTarget.href
+		console.log(dlt)
+		Swal.fire({
+			title: 'Are you sure want to canc?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				
+				window.location = dlt;
+			}
+		})
+	}
+</script>
 </body>
 

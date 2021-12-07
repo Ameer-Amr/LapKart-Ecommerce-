@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Output</title>
+    <style>
+        
+        @page{
+            size: "A4";
+            margin: 2.5cm 1.5cm 3.5cm 1.5cm;
+            
+
+
+            @bottom-right {
+                content: "Page "counter(page) "of "counter(pages);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div  class="row " style="display: flex; justify-content: center;">
+        <h3 style="color: #cacace; font-size: 25px;" class="font-weight-bold"><b style="color: #FFD523;;" >Lap</b>Kart</h3>
+    </div>
+    <h2><u>Sales Report</u></h2>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Index</th>
+                <th>Product Name</th>
+                <th>Color</th>
+                <th>Product Price</th>
+                <th>Offer Price</th>
+                <th>Discount</th>
+                <th>Qty</th>
+                <th>Last Updation</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in  sales %}
+
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{sale.product.product_name}}</td>
+                {% for i in sale.variations.all%}
+                <td>{{i.color_name}}</td>
+                {% endfor %}
+                <td>{{sale.product.price}}</td>
+                <td>{{sale.product_price}}</td>
+                {% if sale.product.Offer_Price %}
+                <td>{{ sale.product.Offer_Price.discount}}%</td>
+                {% endif %}
+                <td>{{sale.quantity}}</td>
+                <td>{{sale.updated_at}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

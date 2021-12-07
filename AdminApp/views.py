@@ -5,6 +5,7 @@ from django.contrib import messages, auth
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from coupon.forms import CouponForm
 from offer.forms import BrandOfferForm, CategoryOfferForm, ProductOfferForm
 from offer.models import BrandOffer, CategoryOffer, ProductOffer
 from .forms import EditBrand, EditBrandOffer, EditCategory, EditCategoryOffer, EditProduct, EditProductOffer, EditVarient
@@ -15,10 +16,15 @@ from category.models import category
 from category.forms import CategoryForm
 from brands.models import Brand
 from brands.form import BrandForm
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from orders.models import Order, OrderProduct, STATUS1
 from django.db.models import Sum
-
+from coupon.models import Coupon
+from datetime import date
+import csv
+from django.template.loader import render_to_string
+from weasyprint import HTML
+import tempfile
 
 # Create your views here.
 
@@ -51,7 +57,7 @@ def signout(request):
 
 def dashboard(request):
     products = Product.objects.all()
-    total_revenue = Order.objects.aggregate(Sum('order_total'))
+    total_revenue = Order.objects.aggregate(Sum ('order_total'))
     total_orders = Order.objects.filter(is_ordered=True).count()
     total_products = Product.objects.filter(is_available=True).count()
 
@@ -347,7 +353,7 @@ def deleteuser(request, user_id):
 
 def activeorders(request):
     exclude_list = ['Delivered', 'Canceled']
-    active_orders = OrderProduct.objects.all().exclude(status__in=exclude_list)
+    active_orders = OrderProduct.objects.all().exclude(status__in=exclude_list)[::-1] #for reversing the order.
     status = STATUS1
     context = {
         'active_orders': active_orders,
@@ -358,7 +364,7 @@ def activeorders(request):
 
 def order_history(request):
     exclude_list = ['New', 'Accepted', 'Placed', 'Shipped', ]
-    active_orders = OrderProduct.objects.all().exclude(status__in=exclude_list)
+    active_orders = OrderProduct.objects.all().exclude(status__in=exclude_list)[::-1]
     status = STATUS1
     context = {
         'active_orders': active_orders,
@@ -566,3 +572,199 @@ def deleteProductOffer(request, product_id):
     dlt = ProductOffer.objects.get(pk=product_id)
     dlt.delete()
     return redirect('existing_product_Offer')
+
+
+
+def coupon_lists(request):
+    today = date.today()
+    coupon_form = CouponForm()
+    coupons = Coupon.objects.all().order_by('-id')
+
+
+    for coupon in coupons:
+        if coupon.valid_from <= today and coupon.valid_to >= today:
+            Coupon.objects.filter(id=coupon.id).update(active=True)
+        else:
+            Coupon.objects.filter(id=coupon.id).update(active=False)
+
+    context = {
+        'coupon_form': coupon_form,
+        'coupons': coupons,
+    }
+    return render(request, 'admin/couponlist.html', context)
+
+
+
+def add_coupon(request):
+    form = CouponForm()
+    if request.method == 'POST':
+        form = CouponForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('coupon_lists')
+    context = {
+        'form': form
+    }
+    return render(request, 'admin/add_coupon.html', context)
+
+
+def prouduct_report(request):
+    products = Product.objects.all()
+    sales = OrderProduct.objects.filter(ordered = True,status = 'Delivered')
+    orders = OrderProduct.objects.filter(ordered=True).order_by('-created_at')
+
+    if request.GET.get('from'):
+        date_from = datetime.datetime.strptime(request.GET.get('from'), "%Y-%m-%d")
+        date_to = datetime.datetime.strptime(request.GET.get('to'), "%Y-%m-%d")
+        date_to += datetime.timedelta(days=1)
+        orders = OrderProduct.objects.filter(created_at__range=[date_from, date_to])
+
+
+    if request.GET.get('from'):
+        date_from = datetime.datetime.strptime(request.GET.get('from'), "%Y-%m-%d")
+        date_to = datetime.datetime.strptime(request.GET.get('to'), "%Y-%m-%d")
+        date_to += datetime.timedelta(days=1)
+        sales = OrderProduct.objects.filter(created_at__range=[date_from, date_to])
+
+    context = {
+
+        'products':products,
+        'orders':orders,
+        'sales':sales,
+       
+
+    }
+    return render(request, 'admin/prouduct_report.html',context)
+
+
+def product_export_csv(request):
+    response = HttpResponse(content_type = 'text/csv')
+    response['Content-Disposition'] = 'attachement; filename=Product_Report.csv'
+
+    writer = csv.writer(response)
+    writer.writerow(['Product Name','Brand Name','Category Name','Rating','Price','Stock'])
+
+    products = Product.objects.all().order_by('id')
+
+    for product in products:
+        writer.writerow([product.product_name,product.brand_name,product.category,product.averageReview(),product.price,product.stock])
+
+    return response
+
+
+def product_export_pdf(request):
+    response = HttpResponse(content_type = 'application/pdf')
+    response['Content-Disposition'] = 'inline; attachement; filename=Product_Report.pdf'
+
+    response['Content-Transfer-Encoding'] = 'binary'
+
+    products = Product.objects.all().order_by('id')
+
+    html_string = render_to_string('admin/product_pdf_output.html', {
+                                    'products': products, 'total': 0})
+
+    html = HTML(string=html_string)
+
+    result = html.write_pdf()
+
+    with tempfile.NamedTemporaryFile(delete=True) as output:
+        output.write(result)
+        output.flush()
+        output = open(output.name, 'rb')
+        response.write(output.read())
+
+    return response
+
+
+def orders_export_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=orders.csv'
+
+    writer = csv.writer(response)
+    orders = OrderProduct.objects.filter(ordered=True).order_by('-created_at')
+
+    writer.writerow(
+        ['Order Number', 'Customer', 'Product', 'Amount', 'Payment', 'Qty', 'Status', 'Date',])
+
+    for order in orders:
+        writer.writerow([order.order.order_number, order.user.full_name(), order.product,
+                         order.product_price, order.payment.payment_method, order.quantity,
+                         order.status,order.updated_at,])
+    return response
+
+
+
+def orders_export_pdf(request):
+    response = HttpResponse(content_type = 'application/pdf')
+    response['Content-Disposition'] = 'inline; attachement; filename=orders_Report.pdf'
+
+    response['Content-Transfer-Encoding'] = 'binary'
+
+    orders = OrderProduct.objects.filter(ordered=True).order_by('-created_at')
+
+    html_string = render_to_string('admin/orders_pdf_output.html', {
+                                    'orders': orders, 'total': 0})
+
+    html = HTML(string=html_string)
+
+    result = html.write_pdf()
+
+    with tempfile.NamedTemporaryFile(delete=True) as output:
+        output.write(result)
+        output.flush()
+        output = open(output.name, 'rb')
+        response.write(output.read())
+
+    return response
+
+
+
+def sales_export_csv(request):
+    
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=sales.csv'
+
+    writer = csv.writer(response)
+    sales = OrderProduct.objects.filter(ordered = True,status = 'Delivered')
+    for sale in sales:
+        offer_price = Product.Offer_Price(sale.product)
+        if sale.product.Offer_Price: 
+            discount = int(offer_price['discount'])
+            for i in sale.variations.all():
+                print(i.color_name)
+
+
+    writer.writerow(
+        ['Product Name', 'Color', 'Product Price', 'Offer Price', 'Discount', 'Qty', 'Last Updation'])
+
+
+    writer.writerow([sale.product.product_name, i.color_name, sale.product.price,
+                    sale.product_price, discount, sale.quantity,
+                        sale.updated_at])
+    return response
+
+
+
+
+def sales_export_pdf(request):
+    response = HttpResponse(content_type = 'application/pdf')
+    response['Content-Disposition'] = 'inline; attachement; filename=sales_Report.pdf'
+
+    response['Content-Transfer-Encoding'] = 'binary'
+
+    sales = OrderProduct.objects.filter(ordered = True,status = 'Delivered')
+
+    html_string = render_to_string('admin/sales_pdf_output.html', {
+                                    'sales': sales, 'total': 0})
+
+    html = HTML(string=html_string)
+
+    result = html.write_pdf()
+
+    with tempfile.NamedTemporaryFile(delete=True) as output:
+        output.write(result)
+        output.flush()
+        output = open(output.name, 'rb')
+        response.write(output.read())
+
+    return response

@@ -258,6 +258,7 @@ def checkout(request,total=0,quantity=0,cart_items=None):
 @never_cache
 @login_required(login_url='userlogin')
 def Check_coupon(request):
+
     if 'coupon_code' in request.session:
         del request.session['coupon_code']
         del request.session['amount_pay']
@@ -269,11 +270,11 @@ def Check_coupon(request):
     coupon_code = request.POST.get('coupon_code')
     grand_total = float(request.POST.get('grand_total'))
 
-    if Coupon.objects.filter(code=coupon_code).exists():
+    if Coupon.objects.filter(code=coupon_code,coupon_limit__gte=1).exists():
         coupon = Coupon.objects.get(code=coupon_code)
         print(coupon)
         if coupon.active == True:
-            flag = 1
+            flag = 1    
             if not ReviewCoupon.objects.filter(user=request.user, coupon = coupon):
                 today = date.today()
                 

@@ -226,11 +226,11 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-md-8">
-                            <input style="color: red;" {% if 'discount_price' in request.session %}  placeholder="You already grabed your coupon" {% endif %}  id="code" class="form-control" type="text">
+                            <input style="color: red;"   id="code" class="form-control" type="text">
                         </div>
                        
                         <div class="col-md-4">
-                            <button  {% if 'discount_price' in request.session %} disabled {% endif %} onclick="apply_coupon()" class="btn btn-outline-success">Apply Coupon</button>
+                            <a  onclick="apply_coupon()" class="btn btn-outline-success">Apply Coupon</a>
                         </div>
                         <div class="col-md-12 text-center">
                             {% for message in messages %}

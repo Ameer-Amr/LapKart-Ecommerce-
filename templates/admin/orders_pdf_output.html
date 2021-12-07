@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Output</title>
+    <style>
+        
+        @page{
+            size: "A4";
+            margin: 2.5cm 1.5cm 3.5cm 1.5cm;
+            size: letter landscape;
+
+            @bottom-right {
+                content: "Page "counter(page) "of "counter(pages);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div  class="row " style="display: flex; justify-content: center;">
+        <h3 style="color: #cacace; font-size: 25px;" class="font-weight-bold"><b style="color: #FFD523;;" >Lap</b>Kart</h3>
+    </div>
+    <h2><u>Orders Report</u></h2>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Index</th>
+                <th>Order Number</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Amount</th>
+                <th scope="col">Payment</th>
+                <th scope="col">Qty</th>
+                <th>Status</th>
+                <th>Date</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in  orders %}
+
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{order.order.order_number}}</td>
+                <td>{{order.user.full_name}}</td>
+                <td>{{order.product}}</td>
+                <td>{{order.product_price}}</td>
+                <td>{{order.payment.payment_method}}</td>
+                <td>{{order.quantity}}</td>
+                <td>{{order.status}}</td>
+                <td>{{order.updated_at}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

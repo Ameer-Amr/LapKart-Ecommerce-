@@ -66,3 +66,4 @@ class EditProductOffer(forms.ModelForm):
     class Meta:
         model = ProductOffer
         fields = ['product_name', 'discount']
+

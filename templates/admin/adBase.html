@@ -304,8 +304,8 @@
 							<i class="micon dw dw-price-tag"></i><span class="mtext">Coupons</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="video-player.html">Existing Coupons</a></li>
-							<li><a href="login.html">Add Coupons</a></li>
+							<li><a href="{% url 'coupon_lists' %}">Existing Coupons</a></li>
+							<li><a href="{% url 'add_coupon' %}">Add Coupons</a></li>
 						</ul>
 					</li>
 					<li class="dropdown">
@@ -327,7 +327,7 @@
 							<i class="micon dw dw-invoice-1"></i><span class="mtext">Reports</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="blank.html">Blank</a></li>
+							<li><a href="{% url 'prouduct_report' %}">All Reports</a></li>
 						</ul>
 					</li>
 				</ul>

@@ -143,7 +143,7 @@
             {% elif payment_type == 'cod' %}
             <div class="btn_container">
               <!-- razorpay Button -->
-              <button class="btn btn-outline-primary col-12">Cash on delivery</button>
+              <a href="{% url 'cod' %}" class="btn btn-outline-primary col-12">Cash on delivery</a>
             </div>
             {% endif %}
 
