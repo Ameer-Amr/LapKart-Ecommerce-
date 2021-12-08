@@ -8,7 +8,7 @@ from django.utils import timezone
 from coupon.forms import CouponForm
 from offer.forms import BrandOfferForm, CategoryOfferForm, ProductOfferForm
 from offer.models import BrandOffer, CategoryOffer, ProductOffer
-from .forms import EditBrand, EditBrandOffer, EditCategory, EditCategoryOffer, EditProduct, EditProductOffer, EditVarient
+from .forms import EditBanner, EditBrand, EditBrandOffer, EditCategory, EditCategoryOffer, EditCoupon, EditProduct, EditProductOffer, EditVarient
 from store.models import Banners, Product, Variation
 from store.forms import BannerForm, ProductForm, VarientForm
 from accounts.models import Account
@@ -166,6 +166,75 @@ def deletevarient(request, varient_id):
     dlt.delete()
     messages.success(request, 'Your Product Has been deleted')
     return redirect('varientlists')
+
+
+def editbanner(request, banner_id):
+    edtbanner = Banners.objects.get(pk=banner_id)
+    form = EditBanner(instance=edtbanner)
+    if request.method == 'POST':
+        form = EditBanner(request.POST, instance=edtbanner)
+        if form.is_valid():
+            try:
+                form.save()
+
+            except:
+                context = {'form': form}
+                # messages.info(request,"A user with that email address already exists.")
+                return render(request, 'admin/editbanner.html', context)
+            return redirect('active_banners')
+
+    context = {'form': form}
+    return render(request, 'admin/editbanner.html', context)
+
+
+def blockbanner(request, banner_id):
+    bnr = Banners.objects.get(pk=banner_id)
+    bnr.is_active = False
+    bnr.save()
+    return redirect('active_banners')
+
+
+def unblockbanner(request, banner_id):
+    bnr = Banners.objects.get(pk=banner_id)
+    bnr.is_active = True
+    bnr.save()
+    return redirect('active_banners')
+
+
+def deletebanner(request, banner_id):
+    bnr = Banners.objects.get(pk=banner_id)
+    bnr.delete()
+    messages.success(request, 'Your Banner Has been deleted')
+    return redirect('active_banners')
+
+
+def editcoupon(request, coupon_id):
+    edtcoupon = Coupon.objects.get(pk=coupon_id)
+    form = EditCoupon(instance=edtcoupon)
+    if request.method == 'POST':
+        form = EditCoupon(request.POST, instance=edtcoupon)
+        if form.is_valid():
+            try:
+                form.save()
+
+            except:
+                context = {'form': form}
+                # messages.info(request,"A user with that email address already exists.")
+                return render(request, 'admin/editcoupon.html', context)
+            return redirect('coupon_lists')
+
+    context = {'form': form}
+    return render(request, 'admin/editcoupon.html', context)
+
+
+def deletecoupon(request, coupon_id):
+    cpn = Coupon.objects.get(pk=coupon_id)
+    cpn.delete()
+    messages.success(request, 'Your Coupon Has been deleted')
+    return redirect('coupon_lists')
+
+
+
 
 
 def addproduct(request):

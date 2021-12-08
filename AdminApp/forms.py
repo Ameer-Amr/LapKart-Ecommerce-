@@ -4,10 +4,11 @@ from django.db import models
 from django.db.models import fields
 from django.forms.fields import FileField
 from django.forms.widgets import CheckboxInput, FileInput, TextInput
+from coupon.models import Coupon
 from offer.models import BrandOffer, CategoryOffer, ProductOffer
 from category.models import category
 
-from store.models import Product, Variation
+from store.models import Banners, Product, Variation
 from brands.models import Brand
 
 class EditProduct(forms.ModelForm):
@@ -67,3 +68,14 @@ class EditProductOffer(forms.ModelForm):
         model = ProductOffer
         fields = ['product_name', 'discount']
 
+
+class EditBanner(forms.ModelForm):
+    class Meta:
+        model = Banners
+        fields = ['image', 'product','alt_text']
+
+
+class EditCoupon(forms.ModelForm):
+    class Meta:
+        model = Coupon
+        fields = ['coupon_name', 'code','coupon_limit','valid_from','valid_to','discount']

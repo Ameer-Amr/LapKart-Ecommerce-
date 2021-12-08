@@ -187,6 +187,11 @@ def cart(request,total=0,quantity=0,cart_items=None):
     tax = 0
     grand_total = 0
     try:
+
+        if 'buy_now' in request.session:
+            del request.session['buy_now']
+
+
         if request.user.is_authenticated:
             cart_items = CartItem.objects.filter(user=request.user , is_active=True)
         else:
@@ -223,21 +228,44 @@ def checkout(request,total=0,quantity=0,cart_items=None):
         grand_total = 0
         try:
             if request.user.is_authenticated:
-                cart_items = CartItem.objects.filter(user=request.user , is_active=True)
-                addresses = Address.objects.filter(user=request.user)
+                if 'buy_now' in request.session:
+                    product_id=request.session['buy_now']
+                    item=Product.objects.get(id=product_id)
+                    addresses = Address.objects.filter(user=request.user)
+                else:
+                    item=False
+                    cart_items = CartItem.objects.filter(user=request.user , is_active=True)
+                    addresses = Address.objects.filter(user=request.user)
             else:
                 cart = Cart.objects.get(cart_id=_cart_id(request))
                 cart_items = CartItem.objects.filter(cart=cart , is_active=True)
-            for cart_item in cart_items:
-                if cart_item.product.Offer_Price():
-                    offer_price=Product.Offer_Price(cart_item.product)
+
+
+            if 'buy_now' in request.session:
+                product_id=request.session['buy_now']
+                item=Product.objects.get(id=product_id)
+                if item.Offer_Price():
+                    offer_price=Product.Offer_Price(item)
                     print(offer_price['new_price'])
-                    total = total+(offer_price['new_price'] * cart_item.quantity)   
+                    total = total+(offer_price['new_price'] * 1)   
                     print(total) 
                 else:
-                    total = total+(cart_item.product.price * cart_item.quantity)
-            tax = (2 * total)/100
-            grand_total = total+tax
+                    total =(item.price * 1)
+                quantity = 1
+                tax = (2 * total)/100
+                grand_total = total+tax
+  
+            else:
+                for cart_item in cart_items:
+                    if cart_item.product.Offer_Price():
+                        offer_price=Product.Offer_Price(cart_item.product)
+                        print(offer_price['new_price'])
+                        total = total+(offer_price['new_price'] * cart_item.quantity)   
+                        print(total) 
+                    else:
+                        total = total+(cart_item.product.price * cart_item.quantity)
+                tax = (2 * total)/100
+                grand_total = total+tax
             if 'discount_price' in request.session:
                 grand_total = request.session['discount_price']
         except ObjectDoesNotExist:
@@ -250,6 +278,8 @@ def checkout(request,total=0,quantity=0,cart_items=None):
         'tax':tax,
         'grand_total':grand_total,
         'addresses':addresses,
+        'item':item,
+        
         
         }
         return render(request,'user/checkout.html',context)

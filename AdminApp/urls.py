@@ -40,6 +40,13 @@ urlpatterns = [
     path('add_banner',views.add_banner,name='add_banner'),
     path('active_banners',views.active_banners,name='active_banners'),
 
+    path('editbanner/<banner_id>',views.editbanner,name='editbanner'),
+    path('deletebanner/<banner_id>',views.deletebanner,name='deletebanner'),
+    path('blockbanner/<banner_id>',views.blockbanner,name='blockbanner'),
+    path('unblockbanner/<banner_id>',views.unblockbanner,name='unblockbanner'),
+
+
+
     path('blockBrandOffer/<brand_id>',views.blockBrandOffer,name='blockBrandOffer'),
     path('unblockBrandOffer/<brand_id>',views.unblockBrandOffer,name='unblockBrandOffer'),
     path('editBrandOffer/<brand_id>',views.editBrandOffer,name='editBrandOffer'),
@@ -57,6 +64,9 @@ urlpatterns = [
 
     path('coupon_lists',views.coupon_lists,name='coupon_lists'),
     path('add_coupon',views.add_coupon,name='add_coupon'),
+    path('editcoupon/<coupon_id>',views.editcoupon,name='editcoupon'),
+    path('deletecoupon/<coupon_id>',views.deletecoupon,name='deletecoupon'),
+
 
     path('prouduct_report',views.prouduct_report,name='prouduct_report'),
     path('product_export_csv',views.product_export_csv,name='product_export_csv'),

@@ -139,6 +139,40 @@
                 </tr>
                 </thead>
                 <tbody>
+                    {% if item %}
+                    <tr>
+                        <td>
+                            <figure class="itemside align-items-center">
+                                <div class="aside"><img src="{{ item.images.url }}" class="img-sm"></div>
+                                <figcaption class="info">
+                                    <a href="{{ item.get_url }}" class="title text-dark">{{item.product_name}}</a>
+                                    <!-- <p class="text-muted small">Matrix: 25 Mpx <br> Brand: Canon</p> -->
+                                </figcaption>
+                            </figure>
+                        </td>
+                        <td> 
+                            <!-- col.// -->
+                            <label for="">{{ quantity }}</label>
+                        </td>
+                        <td> 
+                            <div class="price-wrap"> 
+                                {% if item.Offer_Price %}
+                                <var class="price">Rs {{ item.Offer_Price.new_price }}</var>
+                                <del  class="text-muted" style="font-size: 14px;">Rs {{item.sub_total}}</del> <br>
+                               <small class="text-muted"
+                                  >Rs {{item.Offer_Price.new_price}} each
+                                </small>
+                                {% else %}
+                                <var class="price">Rs {{ item.sub_total }}</var>
+                                <small class="text-muted"
+                                >Rs {{item..sub_total}} each
+                              </small>
+                                {% endif %}
+                            </div> <!-- price-wrap .// -->
+                        </td>
+    
+                    </tr>
+                    {% else %}
                     {% for cart_item in cart_items %}
                     
                 <tr>
@@ -174,6 +208,7 @@
 
                 </tr>
                 {% endfor %}
+                {% endif %}
 
                 </tbody>
                 </table>

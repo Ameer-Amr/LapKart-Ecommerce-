@@ -1,6 +1,4 @@
 console.log('successs')
-
-
 $("#register").validate({
     rules:{
         first_name:{
