@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG',cast=bool)
 
-ALLOWED_HOSTS = ['lapkart-env.eba-csq28bp4.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['165.232.178.199']
 
 
 # Application definition
