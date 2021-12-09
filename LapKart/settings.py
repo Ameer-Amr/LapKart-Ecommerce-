@@ -170,5 +170,5 @@ AUTH_TOKEN = config('auth_token')
 SERVICES_KEY_OTP = config('services_key_otp')
 
 #razorpay
-RAZOR_KEY_ID = 'rzp_test_Yqjko6NjeiK8gU'
-RAZOR_KEY_SECRET = 'Ten3u0Dxv3zkuetxUpMFy2VM'
+RAZOR_KEY_ID = config('razor_key_id')
+RAZOR_KEY_SECRET = config('razor_key_secret')
