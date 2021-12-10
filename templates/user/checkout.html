@@ -261,11 +261,11 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-md-8">
-                            <input style="color: red;"   id="code" class="form-control" type="text">
+                            <input style="color: red;"   id="code" class="form-control mt-2 text-center" type="text" placeholder="Apply Coupon Here">
                         </div>
                        
-                        <div class="col-md-4">
-                            <a  onclick="apply_coupon()" class="btn btn-outline-success">Apply Coupon</a>
+                        <div class="col-md-4 ">
+                            <a  onclick="apply_coupon()" class="btn btn-outline-success col-sm-12 mt-2">Apply Coupon</a>
                         </div>
                         <div class="col-md-12 text-center">
                             {% for message in messages %}

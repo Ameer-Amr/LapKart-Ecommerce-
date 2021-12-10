@@ -12,23 +12,25 @@
       <div class="row no-gutters">
         <aside class="col-md-6">
        
-          <article class="gallery-wrap m-5">
+          <article class="gallery-wrap ">
             <div class="img-big-wrap">
-              <a href="#"><img class="big_img" src="{{ single_product.images.url }}"></a>
+              <a href="#"><img class="big_img" src="{{ single_product.images.url }}" style="width: 100%; height: 100%;"></a>
             </div> <!-- img-big-wrap.// -->
-            <div class="row mt-5 exzoom " id="exzoom">
-              <div class="col-md-3 col-3 text-center border shadow p-3 mb-5 bg-white rounded">
-                <a href="#"><img class="small_img" src="{{ single_product.images.url }}" height="80px"></a>
+            <div class="row mt-5 exzoom" id="exzoom">
+              <div class="container d-flex justify-content-around mr-2">
+              <div class="text-center border shadow col-lg-3 col-sm-3  mb-5 bg-white rounded">
+                <a href="#"><img class="small_img" src="{{ single_product.images.url }}" style="width: 100%; height: auto;"></a>
               </div>
-              <div class="col-md-3 col-3 text-center border shadow p-3 mb-5 bg-white rounded">
-                <a href="#"><img class="small_img" src="{{ single_product.images1.url }}" height="80px"></a>
+              <div class="  text-center border shadow col-lg-3 col-sm-3  mb-5 bg-white rounded">
+                <a href="#"><img class="small_img" src="{{ single_product.images1.url }}" style="width: 100%; height: auto;"></a>
               </div>
-              <div class="col-md-3 col-3 text-center border shadow p-3 mb-5 bg-white rounded">
-                <a href="#"><img class="small_img" src="{{ single_product.images2.url }}" height="80px"></a>
+              <div class="  text-center border shadow col-lg-3 col-sm-3  mb-5 bg-white rounded">
+                <a href="#"><img class="small_img" src="{{ single_product.images2.url }}" style="width: 100%; height: auto;"></a>
               </div>
-              <div class="col-md-3 col-3 text-center border shadow p-3 mb-5 bg-white rounded">
-                <a href="#"><img class="small_img" src="{{ single_product.images3.url }}" height="80px"></a>
+              <div class="text-center border shadow col-lg-3 col-sm-3  mb-5  bg-white rounded">
+                <a href="#"><img class="small_img" src="{{ single_product.images3.url }}" style="width: 100%; height: auto;"></a>
               </div>
+            </div>
             </div>
           </article> <!-- gallery-wrap .end// -->
           <!-- gallery-wrap .end// -->
