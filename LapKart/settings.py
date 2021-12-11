@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG',cast=bool)
 
-ALLOWED_HOSTS = ['165.22.208.17','139.59.64.108','127.0.0.1','localhost']
+ALLOWED_HOSTS = ['165.22.208.17','139.59.64.108','127.0.0.1','localhost','lapkart.ml','www.lapkart.ml']
 
 
 # Application definition
