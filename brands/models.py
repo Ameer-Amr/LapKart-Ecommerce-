@@ -16,3 +16,6 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.brand_name
+
+    def get_products_count(self):
+        return self.product_set.all().count()

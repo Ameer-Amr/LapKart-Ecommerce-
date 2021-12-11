@@ -99,9 +99,9 @@
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
+          <div class="collapse navbar-collapse ml-5 total" id="navbarSupportedContent">
             <ul class="navbar-nav">
-              <li class="nav-item dropdown mx-3">
+              <li class="nav-item dropdown mx-3 mt-2 category">
                 <a
                   class="nav-link dropdown-toggle btn btn-ctgry"
                   href="#"
@@ -125,14 +125,14 @@
                   {% endfor %}
                 </div>
               </li>
-              <li class="nav-item active">
+              <li class="nav-item active d-flex justify-content-center mt-2 store">
                 <a href="{% url 'store'%}" class="btn btn-store text black"
                   >Store</a
                 >
               </li>
 
-              <li class="nav-item">
-                <div class="col-lg col-md-6 col-sm-12 col">
+              <li class="nav-item mt-2">
+                <div class="col-lg col-md-6 col-sm-12 col searchh">
                     <form action="{% url 'search' %}" class="search" method="GET">
                       <div class="input-group w-100">
                         <input
@@ -154,9 +154,10 @@
                   </div>
                 <!-- search-wrap .end// -->
               </li>
+
             </ul>
             <div class="">
-              <div class="d-flex justify-content-end mb-3 mb-lg-0 p-3">
+              <div class="d-flex justify-content-center  mb-lg-0 p-4">
                 {% if user.id is None %}
                 <div class="widget-header color white">
                   <small class="title text-white">Welcome guest!</small>
@@ -243,4 +244,30 @@
   <!-- End of .container -->
     {% endblock %}
   </body>
+
+<style>
+  @media only screen and (max-width: 600px) {
+    .store{
+      width: 100% !important;
+      margin-top: 10px !important;
+    }
+    .btn-store {
+      width: 100%;
+    }
+    .category{
+      margin-right: 0 !important;
+      margin-left: 0 !important;
+    }
+    .searchh{
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+     
+    }
+    .total{
+      margin-left: 0 !important;
+    }
+  }
+</style>
+
+
 </html>

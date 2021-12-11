@@ -1,5 +1,6 @@
 from django.core import paginator
 from django.shortcuts import get_object_or_404, render,redirect
+from brands.models import Brand
 
 from store.forms import ReviewForm
 from.models import Product, ReviewRating, Variation
@@ -15,14 +16,23 @@ from orders.models import OrderProduct
 # Create your views here.
 
 
-def store(request,category_slug=None):
+def store(request,category_slug=None, brand_slug=None):
     categories = None
     products = None
-
+    brands = None
     if category_slug !=None:
+        print('kooi2')
         categories = get_object_or_404(category,slug=category_slug)
         products = Product.objects.filter(category=categories,is_available = True)
         paginator = Paginator(products,6)#no of products that shows in a page
+        page = request.GET.get('page')
+        paged_products = paginator.get_page(page)
+        product_count = products.count()
+    elif brand_slug != None:
+        print('koooi')
+        brands = get_object_or_404(Brand, slug=brand_slug)
+        products = Product.objects.filter(brand_name=brands, is_available=True)
+        paginator = Paginator(products, 6)
         page = request.GET.get('page')
         paged_products = paginator.get_page(page)
         product_count = products.count()

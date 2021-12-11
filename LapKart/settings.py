@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG',cast=bool)
 
-ALLOWED_HOSTS = ['www.lapkart.ml','lapkart.ml','127.0.0.1']
+ALLOWED_HOSTS = ['165.22.208.17','139.59.64.108','127.0.0.1','localhost']
 
 
 # Application definition
@@ -82,6 +82,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_links',    #for category dropdown links
                 'cart.context_processors.counter', #for count of cart in navbar
+                'brands.context_processors.brand_links'
             ],
         },
     },
