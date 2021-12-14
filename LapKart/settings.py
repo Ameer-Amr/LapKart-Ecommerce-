@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'colorfield',
+    'storages',
     #installed apps
     'Home',
     'accounts',
@@ -104,8 +105,8 @@ DATABASES = {
        'NAME':  config('DB_NAME'),
        'USER': config('DB_USER'),
        'PASSWORD': config('DB_PASSWORD'),
-       'HOST':config('HOST'),
-       'PORT':config('PORT'),
+    #    'HOST':config('HOST'),
+    #    'PORT':config('PORT'),
 
    }
 }
@@ -160,6 +161,22 @@ STATIC_ROOT = os.path.join(BASE_DIR,'asset')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #media files configuration
+...
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+
+AWS_ACCESS_KEY_ID =config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY =config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME =config('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_ENDPOINT_URL =config('AWS_S3_ENDPOINT_URL')
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION =config('AWS_LOCATION')
+DEFAULT_FILE_STORAGE ='storages.backends.s3boto3.S3Boto3Storage'
+
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
