@@ -60,7 +60,7 @@
 	{% for product in products %}
 	<div class="col-md-3">
 		<div class="card card-product-grid shadow-lg p-3 mb-5 bg-white rounded">
-			{% if product.Offer_Price %}
+			{% if product.Offer_Price.discount is not none %}
 			<div class="card shadow-lg" style="background-color: #6B7AA1; height: 25px; width: 75px;  position: absolute; left: 0px; top: 25px;  z-index: 1; border-radius: 0pt;">
 				<p style="color: whitesmoke; text-align: center; font-size: medium; font-family: sans-serif;">{{product.Offer_Price.discount}}% off</p>
 			  </div>
@@ -68,7 +68,7 @@
 			<a href="{{product.get_url}}" class="img-wrap"> <img src="{{ product.images.url }}" width="700px" height="700px"> </a>
 			<figcaption class="info-wrap">
 				<a href="{{product.get_url}}" class="title">{{product.product_name}}</a>
-				{% if product.Offer_Price %}
+				{% if product.Offer_Price.discount is not none %}
 				<div class="price mt-1 d-flex justify-content-between">Rs {{product.Offer_Price.new_price}} <del style="color: grey; font-size: 15px;">{{product.price}}</del><p style="color: green;">{{product.Offer_Price.discount}}% off</div> <!-- price-wrap.// -->
 				{% else %}
 				<div class="price mt-1">Rs {{product.price}}</div> <!-- price-wrap.// -->

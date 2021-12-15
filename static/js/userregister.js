@@ -3,13 +3,11 @@ $("#register").validate({
     rules:{
         first_name:{
             required:true,
-            minlength:4,
-            maxlength:10,
+
         },
         last_name:{
             required:true,
-            minlength:4,
-            maxlength:10,
+
         },  
         email:{
             required:true,
@@ -17,17 +15,19 @@ $("#register").validate({
 
         },
         phone_number: {
+            required:true,
+            number:true,
             matches:"(([0-9]{10})|(\([0-9]{3}\)\s+[0-9]{3}\-[0-9]{4}))",
             minlength:10, 
             maxlength:10,
 
         },    
-        password1:{
+        password:{
             required:true,
             minlength:4,
             maxlength:10,
         },
-        password2:{
+        confirm_password:{
             required:true,
             minlength:4,
             maxlength:10,
@@ -35,12 +35,10 @@ $("#register").validate({
     },
     messages:{
         first_name:{
-            minlength:"The Minimum Number of Characters should be 4",
-            maxlength:"The Maximum Number of Characters should be 10",
+            required:"This field is required!",
         },
         last_name:{
-            minlength:"The Minimum Number of Characters should be 4",
-            maxlength:"The Maximum Number of Characters should be 10",
+            required:"This field is required!",
         },
         email:{
             email:"Invalid Email Address",
@@ -49,11 +47,11 @@ $("#register").validate({
             minlength:"The Minimum Number of Characters should be 10",
             maxlength:"The Maximum Number of Characters should be 10",
         },
-        password1:{
+        password:{
             minlength:"The Minimum Number of Characters should be 4",
             maxlength:"The Maximum Number of Characters should be 10",
         },
-        password2:{
+        confirm_password:{
             minlength:"The Minimum Number of Characters should be 4",
             maxlength:"The Maximum Number of Characters should be 10",
         }

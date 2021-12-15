@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.aggregates import Sum
 from django.db.models.base import Model
 from accounts.models import Account
 from store.models import Product,Variation
@@ -93,3 +94,5 @@ class OrderProduct(models.Model):
 
     def __str__(self):
         return self.product.product_name
+
+

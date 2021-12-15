@@ -17,7 +17,7 @@ from category.forms import CategoryForm
 from brands.models import Brand
 from brands.form import BrandForm
 from django.http import JsonResponse,HttpResponse
-from orders.models import Order, OrderProduct, STATUS1
+from orders.models import Order, OrderProduct, STATUS1, Payment
 from django.db.models import Sum
 from coupon.models import Coupon
 from datetime import date
@@ -679,7 +679,6 @@ def add_coupon(request):
 
 def prouduct_report(request):
     products = Product.objects.all()
-    sales = OrderProduct.objects.filter(ordered = True,status = 'Delivered')
     orders = OrderProduct.objects.filter(ordered=True).order_by('-created_at')
 
     if request.GET.get('from'):
@@ -693,13 +692,13 @@ def prouduct_report(request):
         date_from = datetime.datetime.strptime(request.GET.get('from'), "%Y-%m-%d")
         date_to = datetime.datetime.strptime(request.GET.get('to'), "%Y-%m-%d")
         date_to += datetime.timedelta(days=1)
-        sales = OrderProduct.objects.filter(created_at__range=[date_from, date_to])
+        products = Product.objects.filter(created_date__range=[date_from, date_to])
 
     context = {
 
         'products':products,
         'orders':orders,
-        'sales':sales,
+        
        
 
     }
@@ -794,22 +793,13 @@ def sales_export_csv(request):
     response['Content-Disposition'] = 'attachment; filename=sales.csv'
 
     writer = csv.writer(response)
-    sales = OrderProduct.objects.filter(ordered = True,status = 'Delivered')
-    for sale in sales:
-        offer_price = Product.Offer_Price(sale.product)
-        if sale.product.Offer_Price: 
-            discount = int(offer_price['discount'])
-            for i in sale.variations.all():
-                print(i.color_name)
-
+    products = Product.objects.all().order_by('id')
 
     writer.writerow(
-        ['Product Name', 'Color', 'Product Price', 'Offer Price', 'Discount', 'Qty', 'Last Updation'])
+        ['Brand', 'Product', 'Category', 'Revenue', 'Sold', 'Profit','Stock','Date'])
 
-
-    writer.writerow([sale.product.product_name, i.color_name, sale.product.price,
-                    sale.product_price, discount, sale.quantity,
-                        sale.updated_at])
+    for product in products:
+        writer.writerow([product.brand_name, product.product_name, product.category, product.get_revenue()[0]['revenue'], product.get_count()[0]['quantity'], product.get_profit(), product.stock, product.created_date])
     return response
 
 
@@ -821,10 +811,10 @@ def sales_export_pdf(request):
 
     response['Content-Transfer-Encoding'] = 'binary'
 
-    sales = OrderProduct.objects.filter(ordered = True,status = 'Delivered')
+    products = Product.objects.all().order_by('-id')
 
     html_string = render_to_string('admin/sales_pdf_output.html', {
-                                    'sales': sales, 'total': 0})
+                                    'products': products, 'total': 0})
 
     html = HTML(string=html_string)
 

@@ -32,7 +32,7 @@ def add_cart(request,product_id):
             for item in request.POST:   #for check the varients
                 key = item
                 # value = request.POST[key]
-                color=request.POST['color']
+                color=request.POST.get('color',False)
                 print(color)
                 
                 try:

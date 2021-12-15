@@ -1,11 +1,14 @@
 from django.db import models
+from django.db.models.aggregates import Sum
 from django.db.models.deletion import CASCADE
+
 from accounts.models import Account
 from category.models import category
 from django.urls import reverse
 from colorfield.fields import ColorField
 from django.db.models import Avg, Count
 from brands.models import Brand
+from django.apps import apps
 
 
 # Create your models here.
@@ -76,6 +79,23 @@ class Product(models.Model):
                     raise
                 except:
                     return {'new_price': self.price}
+
+    def get_revenue(self):
+        orderproduct = apps.get_model('orders', 'OrderProduct')
+        orders=orderproduct.objects.filter(product=self,status='Delivered')
+        return orders.values('product').annotate(revenue=Sum('product_price'))
+
+    def get_profit(self):
+        orderproduct = apps.get_model('orders', 'OrderProduct')
+        orders=orderproduct.objects.filter(product=self,status='Delivered')
+        profit_calculted=orders.values('product').annotate(profit=Sum('product_price'))
+        profit_calculated=profit_calculted[0]['profit']*0.23
+        return profit_calculated
+
+    def get_count(self):
+        orderproduct = apps.get_model('orders', 'OrderProduct')
+        orders=orderproduct.objects.filter(product=self,status='Delivered')
+        return orders.values('product').annotate(quantity=Sum('quantity'))
 
 
 

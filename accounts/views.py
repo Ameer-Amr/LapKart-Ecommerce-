@@ -65,7 +65,7 @@ def userlogin(request):
             except:
                 pass
             auth.login(request, user)
-            messages.success(request,'you are logined')
+            messages.success(request,'Authenticated Successfully.')
             url = request.META.get('HTTP_REFERER')
             try:
                 query = requests.utils.urlparse(url).query # eg: next=/cart/checkout/
@@ -74,7 +74,7 @@ def userlogin(request):
                     nextPage = params['next']
                     return redirect(nextPage)
             except:
-                return redirect('userdashboard')
+                return redirect('Homepage')
         else:
             messages.error(request, 'invalid credentials')
             return redirect('userlogin')
@@ -135,7 +135,7 @@ def confirm_signup(request):
 @login_required(login_url='userlogin')
 def userlogout(request):
     auth.logout(request)
-    messages.success(request, 'you are logged out')
+    messages.success(request, 'You are logged out')
     return redirect('userlogin')
 
 
@@ -161,7 +161,7 @@ def otpcheck(request):
         if a:
             user = Account.objects.get(phone_number=mobile)
             auth.login(request, user)
-            # messages.info(request,'OTP Verified')
+            messages.info(request,'Autheticated Successfully')
             return redirect('Homepage')
 
         else:
