@@ -41,6 +41,7 @@ def place_order(request,total = 0,quantity = 0):
     in_dollar = 0
     offer_price = 0
     amount_pay = 0
+    discount = 0
     if 'buy_now' in request.session:
         product_id=request.session['buy_now']
         item=Product.objects.get(id=product_id)
