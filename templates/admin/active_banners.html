@@ -13,7 +13,7 @@
                     <tr>
                         <th scope="col">Banner</th>
                         <th scope="col">Targeted Product</th>
-						<th>Block/Unblock</th>
+						<!-- <th>Block/Unblock</th> -->
 						<th>Actions</th>
                     </tr>
                 </thead>
@@ -22,11 +22,11 @@
                     <tr>
                         <td><img src="{{banner.image.url}}"  width="75px" alt=""></td>
                         <td>{{banner.product}}</td>
-						{% if banner.is_active %}
+						<!-- {% if banner.is_active %}
 						<td><a href="{%  url 'blockbanner' banner.id %}" onclick="blockBanner()"><i class="fas fa-circle" style="color: green;"></i></a></td>  
 						{% else %}
 						  <td><a href="{%  url 'unblockbanner' banner.id %}" onclick="unblockBanner()"><i class="fas fa-circle" style="color: red;"></i></a></td>
-							{% endif %}
+							{% endif %} -->
 						<td><a href="{%  url 'editbanner' banner.id %}"><i class="fas fa-pencil-alt"></i></a> <a href="{%  url 'deletebanner' banner.id %}" style="margin-left: 15px;" onclick="deleteBanner()"><i
 								class="far fa-trash-alt"></i></a>
 						</td>

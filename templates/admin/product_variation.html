@@ -20,9 +20,9 @@
 							<th scope="col">Index</th>
 							<th>Product Name</th>
 							<th scope="col">Varient Category</th>
-							<th scope="col">variation value </th>
+							<th scope="col">Variation Value </th>
 							<th scope="col">Color </th>
-							<th scope="col">Status</th>
+							<!-- <th scope="col">Status</th> -->
 							<th scope="col">Actions</th>
 						</tr>
 					</thead>
@@ -35,11 +35,11 @@
 							<td>{{varient.variation_category}}</td>
 							<td>{{varient.variation_value}}</td>
 							<td>{{varient.color_name}}</td>
-                            {% if varient.is_active %}
+                            <!-- {% if varient.is_active %}
                             <td><a href="{%  url 'blockvarient' varient.id %}" onclick="blockVarient()"><i class="fas fa-circle" style="color: green;"></i></a></td>  
                             {% else %}
                               <td><a href="{%  url 'unblockvarient' varient.id %}" onclick="unblockVarient()"><i class="fas fa-circle" style="color: red;"></i></a></td>
-                                {% endif %}
+                                {% endif %} -->
                             <td><a href="{%  url 'editvarient' varient.id %}"><i class="fas fa-pencil-alt"></i></a> <a href="{%  url 'deletevarient' varient.id %}" style="margin-left: 15px;" onclick="deletevarient()"><i
                                     class="far fa-trash-alt"></i></a>
                             </td>

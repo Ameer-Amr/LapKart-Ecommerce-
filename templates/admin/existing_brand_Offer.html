@@ -31,9 +31,9 @@
                         <td><i class="fas fa-circle" style="color: red;"></i></td>
                         {% endif %}
             			{% if offer.is_valid %} 
-                        <td><a href="{%  url 'blockBrandOffer' offer.id %}" onclick="blockOffer()"><i class="icon-copy dw dw-lock"></i></a></td>  
+                        <td><a href="{%  url 'blockBrandOffer' offer.id %}" onclick="blockOffer()"><i class="fas fa-lock"></i></a></td>  
                         {% else %}
-                          <td><a href="{%  url 'unblockBrandOffer' offer.id %}" onclick="unblockOffer()"><i class="icon-copy dw dw-unlock1"></i></a></td>
+                          <td><a href="{%  url 'unblockBrandOffer' offer.id %}" onclick="unblockOffer()"><i class="fas fa-lock-open"></i></a></td>
                             {% endif %}
 							<td><a href="{%  url 'editBrandOffer' offer.id %}"><i class="fas fa-pencil-alt"></i></a></td>
                             <td><a href="{%  url 'deleteBrandOffer' offer.id %}" style="margin-left: 15px;" onclick="deleteOffer()"><i

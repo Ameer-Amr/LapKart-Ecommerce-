@@ -104,7 +104,6 @@
 					<table class="data-table table hover multiple-select-row nowrap" id="myTable">
 						<thead>
                             <tr>
-                                <th>No.</th>
                                 <th>Brand</th>
                                 <th>Product</th>
                                 <th>Category</th>
@@ -118,7 +117,6 @@
                         <tbody>
                             {% for product in products %}
                             <tr>
-                                <th scope="row"> {{forloop.counter}}</th>
                                 <td>{{product.brand_name}}</td>
                                 <td>{{ product.product_name }}</td>
                                 <td>

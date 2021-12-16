@@ -21,6 +21,8 @@
 
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="{% static 'vendors/styles/core.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'vendors/styles/icon-font.min.css' %}">
@@ -230,7 +232,7 @@
 				<ul id="accordion-menu">
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
+							<i class="fas fa-home mr-2"></i><span class="mtext">Home</span>
 						</a>
 						 <ul class="submenu">
 							<li><a href="{% url 'dashboard' %}">Dashboard</a></li>
@@ -238,7 +240,7 @@
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<i class="micon dw dw-star"></i><span class="mtext">Manage Brands</span>
+							<i class="far fa-star mr-2"></i><span class="mtext">Manage Brands</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{% url 'brandlists' %}">Brand Lists</a></li>
@@ -247,7 +249,7 @@
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<i class="micon dw dw-computer-1"></i><span class="mtext">Manage Products</span>
+							<i class="fas fa-laptop mr-2"></i><span class="mtext">Manage Products</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{% url 'productlists' %}">Product Lists</a></li>
@@ -256,7 +258,7 @@
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<i class="micon dw dw-computer-1"></i><span class="mtext">Product Varient</span>
+							<i class="fas fa-laptop mr-2"></i><span class="mtext">Product Varient</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{% url 'varientlists' %}">Varients Lists</a></li>
@@ -265,7 +267,7 @@
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<i class="micon dw dw-shopping-bag"></i><span class="mtext">Manage Category</span>
+							<i class="fas fa-shopping-basket mr-2"></i><span class="mtext">Manage Category</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{% url 'categorylists' %}">Category Lists</a></li>
@@ -274,7 +276,7 @@
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<i class="micon dw dw-shopping-cart-1"></i><span class="mtext"> Manage Order </span>
+							<i class="fas fa-truck mr-2"></i><span class="mtext"> Manage Order </span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{% url 'activeorders' %}">Order Lists</a></li>
@@ -283,7 +285,7 @@
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<i class="micon dw dw-user2"></i><span class="mtext"> Manage User</span>
+							<i class="fas fa-user-tie mr-2"></i><span class="mtext"> Manage User</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{% url 'activeusers' %}">Active Users</a></li>
@@ -291,7 +293,7 @@
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<i class="micon dw dw-image-2"></i><span class="mtext">Banners</span>
+							<i class="fas fa-ad mr-2"></i><span class="mtext">Banners</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{% url 'active_banners' %}">Existing Banners</a></li>
@@ -301,7 +303,7 @@
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<i class="micon dw dw-price-tag"></i><span class="mtext">Coupons</span>
+							<i class="fas fa-tag mr-2"></i><span class="mtext">Coupons</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{% url 'coupon_lists' %}">Existing Coupons</a></li>
@@ -310,7 +312,7 @@
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw dw-browser2"></span><span class="mtext">Offers</span>
+							<i class="fas fa-tags mr-2"></i><span class="mtext">Offers</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{% url 'existing_brand_Offer' %}">Existing Brand Offers</a></li>
@@ -324,7 +326,7 @@
 
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<i class="micon dw dw-invoice-1"></i><span class="mtext">Reports</span>
+							<i class="fas fa-file-pdf mr-2"></i><span class="mtext">Reports</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="{% url 'prouduct_report' %}">All Reports</a></li>
