@@ -109,12 +109,12 @@ def usersignup(request):
 
 
 def confirm_signup(request):
+   
     if request.user.is_authenticated:
         return redirect('Homepage')
     if request.method == 'POST':
         otp = request.POST['otpcode']
         print(otp)
-
         if checkOTP(phone_number, otp):
             user.phone_number = phone_number
             user.save()
