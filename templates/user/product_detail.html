@@ -1,4 +1,6 @@
 {% extends 'user/base.html' %} {% load static %} {% block body%}
+
+
 <section class="section-content padding-y bg">
   <div class="container">
     <!-- ============================ COMPONENT 1 ================================= -->
@@ -85,8 +87,8 @@
                <h5 class="text-danger">Out Of Stock</h5>
                 {% else %}
 
-                              <div class="d-flex justify-content-around">
-                                <div class="">
+                              <div class="d-flex justify-content-center">
+                                <div class="mr-1">
                                   <button type="submit" class="btn btn-primary btn-lg">Add to cart
                                   </button>
                                 </div>
@@ -200,13 +202,13 @@
 </section>
 <!-- ========================= SECTION CONTENT END// ========================= -->
 
-
 <script type="text/javascript">
   $(document).ready(function () {
     $(".small_img").hover(function () {
       $(".big_img").attr('src', $(this).attr('src'));
     })
   })
+  
 </script>
 
 <script>
@@ -216,4 +218,5 @@
     })
   })
 </script>
+
 {% endblock %}

@@ -47,7 +47,7 @@ def adminlogin(request):
     # messages.error(request,'Invalid Entry')
     return render(request, 'admin/adminlogin.html')
 
-
+@login_required(login_url='adminlogin')
 def signout(request):
     if request.session.has_key('key'):
         del request.session['key']
@@ -55,6 +55,7 @@ def signout(request):
     return redirect('adminlogin')
 
 
+@login_required(login_url='adminlogin')
 def dashboard(request):
     products = Product.objects.all()
     total_revenue = Order.objects.aggregate(Sum ('order_total'))
@@ -73,7 +74,7 @@ def dashboard(request):
             monthly_order = order_detail.filter(created_at__month=i).count()
             monthly_order_count.append(monthly_order)
 
-
+    
         #status
         new_count = OrderProduct.objects.filter(status='New').count()
         placed_count = OrderProduct.objects.filter(status='Placed').count()
@@ -788,20 +789,19 @@ def orders_export_pdf(request):
 
 
 def sales_export_csv(request):
-    
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=sales.csv'
+    response['Content-Disposition'] = 'attachment; filename=products.csv'
 
     writer = csv.writer(response)
-    products = Product.objects.all().order_by('id')
+    products = Product.objects.all().order_by('-id')
 
     writer.writerow(
-        ['Brand', 'Product', 'Category', 'Revenue', 'Sold', 'Profit','Stock','Date'])
+        ['Brand', 'Product', 'Category', 'Price','Revenue', 'Sold Count', 'Profit','Stock'])
 
     for product in products:
-        writer.writerow([product.brand_name, product.product_name, product.category, product.get_revenue()[0]['revenue'], product.get_count()[0]['quantity'], product.get_profit(), product.stock, product.created_date])
+        writer.writerow([product.brand_name, product.product_name, product.category,product.price, product.get_revenue()[0]['revenue'],
+                         product.get_count()[0]['quantity'], product.get_profit(),product.stock])
     return response
-
 
 
 

@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.db.models.aggregates import Sum
 from django.db.models.deletion import CASCADE
@@ -80,21 +81,21 @@ class Product(models.Model):
                 except:
                     return {'new_price': self.price}
 
-    def get_revenue(self):
+    def get_revenue(self,month=timezone.now().month):
         orderproduct = apps.get_model('orders', 'OrderProduct')
-        orders=orderproduct.objects.filter(product=self,status='Delivered')
+        orders=orderproduct.objects.filter(product=self,created_at__month=month,status='Delivered')
         return orders.values('product').annotate(revenue=Sum('product_price'))
 
-    def get_profit(self):
+    def get_profit(self,month=timezone.now().month):
         orderproduct = apps.get_model('orders', 'OrderProduct')
-        orders=orderproduct.objects.filter(product=self,status='Delivered')
+        orders=orderproduct.objects.filter(product=self,created_at__month=month,status='Delivered')
         profit_calculted=orders.values('product').annotate(profit=Sum('product_price'))
         profit_calculated=profit_calculted[0]['profit']*0.23
         return profit_calculated
 
-    def get_count(self):
+    def get_count(self,month=timezone.now().month):
         orderproduct = apps.get_model('orders', 'OrderProduct')
-        orders=orderproduct.objects.filter(product=self,status='Delivered')
+        orders=orderproduct.objects.filter(product=self,created_at__month=month,status='Delivered')
         return orders.values('product').annotate(quantity=Sum('quantity'))
 
 

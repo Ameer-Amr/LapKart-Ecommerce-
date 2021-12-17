@@ -17,6 +17,7 @@
             @bottom-right {
                 content: "Page "counter(page) "of "counter(pages);
             }
+            
         }
 
     </style>
@@ -25,63 +26,76 @@
     <div  class="row " style="display: flex; justify-content: center;">
         <h3 style="color: #cacace; font-size: 25px;" class="font-weight-bold"><b style="color: #FFD523;;" >Lap</b>Kart</h3>
     </div>
-    <h2><u>Sales Report</u></h2>
+    <h2>Sales Report</h2>
     <table class="table mt-3">
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Brand</th>
-                <th>Product</th>
-                <th>Category</th>
-                <th>Revenue</th>
-                <th>Sold</th>
-                <th>Profit</th>
-                <th>Stock</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-            <tr>
-                <th scope="row"> {{forloop.counter}}</th>
-                <td>{{product.brand_name}}</td>
-                <td>{{ product.product_name }}</td>
-                <td>
+   						<thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Product</th>
+                                <th>Brand</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Sales Count</th>
+                                <th>Revenue</th>
+                                <th>Profit</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{ product.product_name }}</td>
+								<td>{{product.brand_name}}</td>
+                                <td>{{ product.category }}</td>
+                                <td>{{product.price}}</td>
+								<td>
+                                    {% if product.get_revenue %}
+                                    {{product.get_count.0.quantity}}
+                                    {% else %}
+                                    Order not Completed
+                                    {% endif %}
+                                </td>
+                                <td>
+                                {% if product.get_revenue %}
+                                 {{product.get_revenue.0.revenue}}
+                                {% else %}
+                                Order not Completed
+                                {% endif %}
+                                </td>
 
-                    {{ product.category }}
-                </td>
-                <td>
-                {% if product.get_revenue %}
-                 {{product.get_revenue.0.revenue}}
-                {% else %}
-                Order not Completed
-                {% endif %}
-                </td>
-                <td>
-                    {% if product.get_revenue %}
-                    {{product.get_count.0.quantity}}
-                    {% else %}
-                    Order not Completed
-                    {% endif %}
-                </td>
-                <td>
-                    {% if product.get_revenue %}
-                    {{product.get_profit}}
-                    {% else %}
-                    none
-                    {% endif %}
+                                <td>
+                                    {% if product.get_revenue %}
+                                    {{product.get_profit}}
+                                    {% else %}
+                                    none
+                                    {% endif %}
 
-                </td>
-                <td>
-                    {{product.stock}}
-                </td>
-                <td>{{product.created_date}}</td>
-               
+                                </td>
+                                <td>{{product.stock}}</td>
 
-            </tr>
-            {% endfor %}
+                            </tr>
+                            {% endfor %}
 
-        </tbody>
+                        </tbody>
     </table>
+
+    <style>
+        table {
+            border: 1px solid;
+            margin: 0 auto;
+            width: 100%;
+          }
+     
+          td, th {
+            text-align: center;
+            border: 1px solid;
+            width: 15px;
+          }
+          h2{
+              text-align: center;
+              color: #6B7AA1;
+          }
+    </style>
 </body>
 </html>

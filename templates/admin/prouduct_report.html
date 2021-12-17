@@ -96,8 +96,8 @@
 						</div>
 					</form>
 					<div class="d-flex justify-content-end mb-4 px-10">
-						<a href="{% url 'sales_export_csv' %}" class="btn btn-sm btn-success mr-2">Export
-							as CSV</a>
+						<!-- <a href="{% url 'sales_export_csv' %}" class="btn btn-sm btn-success mr-2">Export
+							as CSV</a> -->
 						<a href="{% url 'sales_export_pdf' %}" class="btn btn-sm btn-danger">Export
 							as PDF</a>
 					</div>
@@ -107,30 +107,28 @@
                                 <th>Brand</th>
                                 <th>Product</th>
                                 <th>Category</th>
+								<th>Price</th>
                                 <th>Revenue</th>
-                                <th>Sold</th>
+								<th>Sales Count</th>
                                 <th>Profit</th>
-                                <th>Stock</th>
-								<th>Date</th>
+								<th>stock</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for product in products %}
                             <tr>
-                                <td>{{product.brand_name}}</td>
-                                <td>{{ product.product_name }}</td>
-                                <td>
-
-                                    {{ product.category }}
-                                </td>
-                                <td>
-                                {% if product.get_revenue %}
-                                 {{product.get_revenue.0.revenue}}
-                                {% else %}
-                                Order not Completed
-                                {% endif %}
-                                </td>
-                                <td>
+								<td>{{product.brand_name}}</td>
+								<td>{{ product.product_name }}</td>
+                                <td>{{ product.category }}</td>
+								<td>{{product.price}}</td>
+								<td>
+									{% if product.get_revenue %}
+									 {{product.get_revenue.0.revenue}}
+									{% else %}
+									Order not Completed
+									{% endif %}
+									</td>
+								<td>
                                     {% if product.get_revenue %}
                                     {{product.get_count.0.quantity}}
                                     {% else %}
@@ -145,11 +143,7 @@
                                     {% endif %}
 
                                 </td>
-                                <td>
-                                    {{product.stock}}
-                                </td>
-								<td>{{product.created_date}}</td>
-                               
+								<td>{{product.stock}}</td>
 
                             </tr>
                             {% endfor %}
