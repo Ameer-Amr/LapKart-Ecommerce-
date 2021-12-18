@@ -96,6 +96,7 @@ def usersignup(request):
             password = form.cleaned_data['password']
             username = email.split('@')[0]
 
+            request.session['checkmobile'] = phone_number
             user = Account.objects.create_user(
                 first_name=first_name, last_name=last_name, email=email, password=password, username=username,)
             sentOTP(phone_number)
@@ -114,6 +115,7 @@ def confirm_signup(request):
         return redirect('Homepage')
     if request.method == 'POST':
         otp = request.POST['otpcode']
+        phone_number= request.session['checkmobile']
         print(otp)
         if checkOTP(phone_number, otp):
             user.phone_number = phone_number
