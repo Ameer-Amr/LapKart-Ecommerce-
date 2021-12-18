@@ -67,11 +67,13 @@ def place_order(request,total = 0,quantity = 0):
                 total = total+(cart_item.product.price * cart_item.quantity)
     tax = (2 * total)/100
     grand_total = total + tax
+    in_dollar = round(grand_total/70)
+
     if 'discount_price' in request.session:
         grand_total = request.session['discount_price']
-        print(grand_total)
-        in_dollar = round(grand_total/70)
         discount = int(offer_price['discount'])
+        print(grand_total)
+
     if 'amount_pay' in request.session:
         amount_pay = request.session['amount_pay']  
 
