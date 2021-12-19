@@ -81,10 +81,9 @@ def userlogin(request):
     return render(request, 'user/userlogin.html')
 
 def usersignup(request):
-    global phone_number, user
+    global phone_number
     if request.user.is_authenticated:
         return redirect('Homepage')
-    form = RegistrationForm()
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -96,16 +95,20 @@ def usersignup(request):
             password = form.cleaned_data['password']
             username = email.split('@')[0]
 
+            request.session['first_name'] = first_name
+            request.session['last_name'] = last_name
+            request.session['email'] = email
             request.session['checkmobile'] = phone_number
-            user = Account.objects.create_user(
-                first_name=first_name, last_name=last_name, email=email, password=password, username=username,)
-            sentOTP(phone_number)
+            request.session['password'] = password
+            request.session['username'] = username
+            sentOTP(phone_number)   
             return redirect('confirm_signup')
+    else:
+        form = RegistrationForm()
 
     context = {
         'form': form,
     }
-
     return render(request, 'user/usersignup.html', context)
 
 
@@ -117,15 +120,23 @@ def confirm_signup(request):
         otp = request.POST['otpcode']
         phone_number= request.session['checkmobile']
         print(otp)
-        if checkOTP(phone_number, otp):
-            user.phone_number = phone_number
-            user.save()
+        if checkOTP(phone_number, otp): 
+            first_name = request.session['first_name']
+            last_name = request.session['last_name']
+            email = request.session['email']
+            phone_number = request.session['checkmobile']
+            password = request.session['password']
+            username = request.session['username']
 
+            user = Account.objects.create_user(
+                first_name=first_name, last_name=last_name, email=email, password=password, username=username,)
+            user.phone_number = phone_number
             # Create a user profile
-            profile = UserProfile()
+            profile = UserProfile() 
             profile.user_id = user.id
-            profile.profile_picture = 'default/default-image.png'
+            profile.profile_picture = 'static/default.png'
             profile.save()
+            user.save()
             messages.success(request, 'Registered successfully')
             return redirect('userlogin')
         else:
@@ -156,6 +167,8 @@ def signinotp(request):
 
 
 def otpcheck(request):
+    if request.user.is_authenticated:
+        return redirect('Homepage')
     if request.method == 'POST':
         otp = request.POST['otpcode']
         mobile = request.session['checkmobile']
