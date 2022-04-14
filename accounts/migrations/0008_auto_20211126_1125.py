@@ -6,85 +6,85 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0007_auto_20211125_1101'),
+        ("accounts", "0007_auto_20211125_1101"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='address',
-            old_name='district',
-            new_name='first_name',
+            model_name="address",
+            old_name="district",
+            new_name="first_name",
         ),
         migrations.RenameField(
-            model_name='address',
-            old_name='full_name',
-            new_name='last_name',
+            model_name="address",
+            old_name="full_name",
+            new_name="last_name",
         ),
         migrations.RenameField(
-            model_name='address',
-            old_name='phone',
-            new_name='pincode',
+            model_name="address",
+            old_name="phone",
+            new_name="pincode",
         ),
         migrations.RemoveField(
-            model_name='address',
-            name='address_type',
+            model_name="address",
+            name="address_type",
         ),
         migrations.RemoveField(
-            model_name='address',
-            name='default',
+            model_name="address",
+            name="default",
         ),
         migrations.RemoveField(
-            model_name='address',
-            name='landmark',
+            model_name="address",
+            name="landmark",
         ),
         migrations.RemoveField(
-            model_name='address',
-            name='locality',
+            model_name="address",
+            name="locality",
         ),
         migrations.RemoveField(
-            model_name='address',
-            name='pin_code',
+            model_name="address",
+            name="pin_code",
         ),
         migrations.RemoveField(
-            model_name='address',
-            name='street',
+            model_name="address",
+            name="street",
         ),
         migrations.AddField(
-            model_name='address',
-            name='address_line_1',
+            model_name="address",
+            name="address_line_1",
             field=models.CharField(default=100, max_length=100),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='address',
-            name='address_line_2',
+            model_name="address",
+            name="address_line_2",
             field=models.CharField(blank=True, max_length=100),
         ),
         migrations.AddField(
-            model_name='address',
-            name='country',
+            model_name="address",
+            name="country",
             field=models.CharField(default=100, max_length=20),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='address',
-            name='phone_number',
+            model_name="address",
+            name="phone_number",
             field=models.CharField(default=100, max_length=15),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='address',
-            name='city',
+            model_name="address",
+            name="city",
             field=models.CharField(max_length=20),
         ),
         migrations.AlterField(
-            model_name='address',
-            name='email',
+            model_name="address",
+            name="email",
             field=models.EmailField(max_length=200),
         ),
         migrations.AlterField(
-            model_name='address',
-            name='state',
+            model_name="address",
+            name="state",
             field=models.CharField(max_length=20),
         ),
     ]

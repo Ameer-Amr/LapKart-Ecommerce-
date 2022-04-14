@@ -9,43 +9,85 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('brands', '0001_initial'),
-        ('store', '0014_reviewrating_rating'),
-        ('category', '0003_alter_category_options'),
+        ("brands", "0001_initial"),
+        ("store", "0014_reviewrating_rating"),
+        ("category", "0003_alter_category_options"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ProductOffer',
+            name="ProductOffer",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('discount', models.IntegerField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_valid', models.BooleanField(default=True)),
-                ('product_name', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='store.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("discount", models.IntegerField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_valid", models.BooleanField(default=True)),
+                (
+                    "product_name",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="store.product",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='CategoryOffer',
+            name="CategoryOffer",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('discount', models.IntegerField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_valid', models.BooleanField(default=True)),
-                ('category_name', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='category.category')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("discount", models.IntegerField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_valid", models.BooleanField(default=True)),
+                (
+                    "category_name",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="category.category",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='BrandOffer',
+            name="BrandOffer",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('discount', models.IntegerField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_valid', models.BooleanField(default=True)),
-                ('brand_name', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='brands.brand')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("discount", models.IntegerField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_valid", models.BooleanField(default=True)),
+                (
+                    "brand_name",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="brands.brand",
+                    ),
+                ),
             ],
         ),
     ]

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import BrandOffer,ProductOffer,CategoryOffer
+from .models import BrandOffer, ProductOffer, CategoryOffer
+
 # Register your models here.
 
 admin.site.register(BrandOffer)

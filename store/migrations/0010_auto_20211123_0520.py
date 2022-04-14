@@ -7,41 +7,45 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0009_auto_20211122_1408'),
+        ("store", "0009_auto_20211122_1408"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='variation',
-            name='price',
+            model_name="variation",
+            name="price",
         ),
         migrations.RemoveField(
-            model_name='variation',
-            name='ram_category',
+            model_name="variation",
+            name="ram_category",
         ),
         migrations.RemoveField(
-            model_name='variation',
-            name='stock',
+            model_name="variation",
+            name="stock",
         ),
         migrations.RemoveField(
-            model_name='variation',
-            name='storage_category',
+            model_name="variation",
+            name="storage_category",
         ),
         migrations.AddField(
-            model_name='product',
-            name='stock',
+            model_name="product",
+            name="stock",
             field=models.IntegerField(default=2000),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='variation',
-            name='variation_category',
-            field=models.CharField(choices=[('color', 'color')], default=2000, max_length=100),
+            model_name="variation",
+            name="variation_category",
+            field=models.CharField(
+                choices=[("color", "color")], default=2000, max_length=100
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='variation',
-            name='variation_value',
-            field=colorfield.fields.ColorField(default='#FF0000', max_length=18),
+            model_name="variation",
+            name="variation_value",
+            field=colorfield.fields.ColorField(
+                default="#FF0000", max_length=18
+            ),
         ),
     ]

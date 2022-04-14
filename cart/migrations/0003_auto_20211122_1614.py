@@ -7,24 +7,28 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0009_auto_20211122_1408'),
-        ('cart', '0002_remove_cartitem_product'),
+        ("store", "0009_auto_20211122_1408"),
+        ("cart", "0002_remove_cartitem_product"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cartitem',
-            name='product',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='store.product'),
+            model_name="cartitem",
+            name="product",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="store.product",
+            ),
             preserve_default=False,
         ),
         migrations.RemoveField(
-            model_name='cartitem',
-            name='variations',
+            model_name="cartitem",
+            name="variations",
         ),
         migrations.AddField(
-            model_name='cartitem',
-            name='variations',
-            field=models.ManyToManyField(blank=True, to='store.Variation'),
+            model_name="cartitem",
+            name="variations",
+            field=models.ManyToManyField(blank=True, to="store.Variation"),
         ),
     ]

@@ -8,27 +8,57 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0003_alter_account_phone_number'),
+        ("accounts", "0003_alter_account_phone_number"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Address',
+            name="Address",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('full_name', models.CharField(max_length=50)),
-                ('phone', models.CharField(max_length=10)),
-                ('email', models.EmailField(max_length=35)),
-                ('pin_code', models.PositiveIntegerField()),
-                ('locality', models.CharField(max_length=50)),
-                ('landmark', models.CharField(max_length=50)),
-                ('street', models.CharField(max_length=50, verbose_name='Area/Street/Village')),
-                ('city', models.CharField(max_length=50, verbose_name='Town/City')),
-                ('district', models.CharField(max_length=50)),
-                ('state', models.CharField(max_length=50)),
-                ('address_type', models.CharField(help_text='Example:- Home, Office, etc', max_length=50, null=True, verbose_name='Address Type')),
-                ('default', models.BooleanField(default=False)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("full_name", models.CharField(max_length=50)),
+                ("phone", models.CharField(max_length=10)),
+                ("email", models.EmailField(max_length=35)),
+                ("pin_code", models.PositiveIntegerField()),
+                ("locality", models.CharField(max_length=50)),
+                ("landmark", models.CharField(max_length=50)),
+                (
+                    "street",
+                    models.CharField(
+                        max_length=50, verbose_name="Area/Street/Village"
+                    ),
+                ),
+                (
+                    "city",
+                    models.CharField(max_length=50, verbose_name="Town/City"),
+                ),
+                ("district", models.CharField(max_length=50)),
+                ("state", models.CharField(max_length=50)),
+                (
+                    "address_type",
+                    models.CharField(
+                        help_text="Example:- Home, Office, etc",
+                        max_length=50,
+                        null=True,
+                        verbose_name="Address Type",
+                    ),
+                ),
+                ("default", models.BooleanField(default=False)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

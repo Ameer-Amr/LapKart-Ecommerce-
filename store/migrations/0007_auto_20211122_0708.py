@@ -6,28 +6,36 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0006_auto_20211122_0508'),
+        ("store", "0006_auto_20211122_0508"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='variation',
-            name='variation_category',
+            model_name="variation",
+            name="variation_category",
         ),
         migrations.RemoveField(
-            model_name='variation',
-            name='variation_value',
+            model_name="variation",
+            name="variation_value",
         ),
         migrations.AddField(
-            model_name='variation',
-            name='ram_category',
-            field=models.CharField(choices=[('8GB', '8GB'), ('16GB', '16GB'), ('32GB', '32GB')], default=1, max_length=100),
+            model_name="variation",
+            name="ram_category",
+            field=models.CharField(
+                choices=[("8GB", "8GB"), ("16GB", "16GB"), ("32GB", "32GB")],
+                default=1,
+                max_length=100,
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='variation',
-            name='storage_category',
-            field=models.CharField(choices=[('HDD', 'HDD'), ('SSD', 'SSD')], default=1000, max_length=100),
+            model_name="variation",
+            name="storage_category",
+            field=models.CharField(
+                choices=[("HDD", "HDD"), ("SSD", "SSD")],
+                default=1000,
+                max_length=100,
+            ),
             preserve_default=False,
         ),
     ]

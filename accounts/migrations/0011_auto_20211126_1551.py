@@ -6,18 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0010_auto_20211126_1410'),
+        ("accounts", "0010_auto_20211126_1410"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='address',
-            name='address_type',
-            field=models.CharField(help_text='Example:- Home, Office, etc', max_length=50, null=True, verbose_name='Address Type'),
+            model_name="address",
+            name="address_type",
+            field=models.CharField(
+                help_text="Example:- Home, Office, etc",
+                max_length=50,
+                null=True,
+                verbose_name="Address Type",
+            ),
         ),
         migrations.AddField(
-            model_name='address',
-            name='default',
+            model_name="address",
+            name="default",
             field=models.BooleanField(default=False),
         ),
     ]

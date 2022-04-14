@@ -6,19 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0007_auto_20211122_0708'),
+        ("store", "0007_auto_20211122_0708"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='price',
+            model_name="product",
+            name="price",
             field=models.IntegerField(default=1000),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='variation',
-            name='ram_category',
-            field=models.CharField(choices=[('4GB', '4GB'), ('8GB', '8GB')], max_length=100),
+            model_name="variation",
+            name="ram_category",
+            field=models.CharField(
+                choices=[("4GB", "4GB"), ("8GB", "8GB")], max_length=100
+            ),
         ),
     ]

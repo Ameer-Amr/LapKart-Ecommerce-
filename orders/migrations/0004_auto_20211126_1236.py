@@ -6,18 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('orders', '0003_order_tax'),
+        ("orders", "0003_order_tax"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='order',
-            name='address_type',
-            field=models.CharField(help_text='Example:- Home, Office, etc', max_length=50, null=True, verbose_name='Address Type'),
+            model_name="order",
+            name="address_type",
+            field=models.CharField(
+                help_text="Example:- Home, Office, etc",
+                max_length=50,
+                null=True,
+                verbose_name="Address Type",
+            ),
         ),
         migrations.AddField(
-            model_name='order',
-            name='default',
+            model_name="order",
+            name="default",
             field=models.BooleanField(default=False),
         ),
     ]

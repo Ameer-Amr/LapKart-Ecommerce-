@@ -7,14 +7,18 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('category', '0003_alter_category_options'),
-        ('store', '0025_banners'),
+        ("category", "0003_alter_category_options"),
+        ("store", "0025_banners"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='banners',
-            name='category',
-            field=models.ForeignKey(default=True, on_delete=django.db.models.deletion.CASCADE, to='category.category'),
+            model_name="banners",
+            name="category",
+            field=models.ForeignKey(
+                default=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="category.category",
+            ),
         ),
     ]

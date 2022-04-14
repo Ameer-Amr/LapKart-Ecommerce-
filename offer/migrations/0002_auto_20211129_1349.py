@@ -7,26 +7,34 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('brands', '0001_initial'),
-        ('store', '0014_reviewrating_rating'),
-        ('category', '0003_alter_category_options'),
-        ('offer', '0001_initial'),
+        ("brands", "0001_initial"),
+        ("store", "0014_reviewrating_rating"),
+        ("category", "0003_alter_category_options"),
+        ("offer", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='brandoffer',
-            name='brand_name',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='brands.brand'),
+            model_name="brandoffer",
+            name="brand_name",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE, to="brands.brand"
+            ),
         ),
         migrations.AlterField(
-            model_name='categoryoffer',
-            name='category_name',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='category.category'),
+            model_name="categoryoffer",
+            name="category_name",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="category.category",
+            ),
         ),
         migrations.AlterField(
-            model_name='productoffer',
-            name='product_name',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='store.product'),
+            model_name="productoffer",
+            name="product_name",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="store.product",
+            ),
         ),
     ]

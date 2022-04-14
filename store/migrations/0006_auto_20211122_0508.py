@@ -6,27 +6,27 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0005_variation'),
+        ("store", "0005_variation"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='product',
-            name='price',
+            model_name="product",
+            name="price",
         ),
         migrations.RemoveField(
-            model_name='product',
-            name='stock',
+            model_name="product",
+            name="stock",
         ),
         migrations.AddField(
-            model_name='variation',
-            name='price',
+            model_name="variation",
+            name="price",
             field=models.IntegerField(default=1),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='variation',
-            name='stock',
+            model_name="variation",
+            name="stock",
             field=models.IntegerField(default=1),
             preserve_default=False,
         ),

@@ -6,49 +6,49 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0006_alter_userprofile_phone'),
+        ("accounts", "0006_alter_userprofile_phone"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='userprofile',
-            name='email',
+            model_name="userprofile",
+            name="email",
         ),
         migrations.RemoveField(
-            model_name='userprofile',
-            name='first_name',
+            model_name="userprofile",
+            name="first_name",
         ),
         migrations.RemoveField(
-            model_name='userprofile',
-            name='last_name',
+            model_name="userprofile",
+            name="last_name",
         ),
         migrations.RemoveField(
-            model_name='userprofile',
-            name='phone',
+            model_name="userprofile",
+            name="phone",
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='address_line_1',
+            model_name="userprofile",
+            name="address_line_1",
             field=models.CharField(blank=True, max_length=100),
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='address_line_2',
+            model_name="userprofile",
+            name="address_line_2",
             field=models.CharField(blank=True, max_length=100),
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='city',
+            model_name="userprofile",
+            name="city",
             field=models.CharField(blank=True, max_length=20),
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='country',
+            model_name="userprofile",
+            name="country",
             field=models.CharField(blank=True, max_length=20),
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='state',
+            model_name="userprofile",
+            name="state",
             field=models.CharField(blank=True, max_length=20),
         ),
     ]

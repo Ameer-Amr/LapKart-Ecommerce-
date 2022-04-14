@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0027_remove_banners_category'),
+        ("store", "0027_remove_banners_category"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='banners',
-            name='is_active',
+            model_name="banners",
+            name="is_active",
             field=models.BooleanField(default=True),
         ),
     ]

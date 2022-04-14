@@ -7,19 +7,39 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0004_auto_20211119_0855'),
+        ("store", "0004_auto_20211119_0855"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Variation',
+            name="Variation",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('variation_category', models.CharField(choices=[('RAM', 'RAM'), ('inches', 'inches')], max_length=100)),
-                ('variation_value', models.CharField(max_length=100)),
-                ('is_active', models.BooleanField(default=True)),
-                ('created_date', models.DateField(auto_now=True)),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='store.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "variation_category",
+                    models.CharField(
+                        choices=[("RAM", "RAM"), ("inches", "inches")],
+                        max_length=100,
+                    ),
+                ),
+                ("variation_value", models.CharField(max_length=100)),
+                ("is_active", models.BooleanField(default=True)),
+                ("created_date", models.DateField(auto_now=True)),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="store.product",
+                    ),
+                ),
             ],
         ),
     ]

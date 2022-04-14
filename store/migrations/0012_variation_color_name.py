@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0011_alter_variation_variation_value'),
+        ("store", "0011_alter_variation_variation_value"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='variation',
-            name='color_name',
+            model_name="variation",
+            name="color_name",
             field=models.CharField(default=2, max_length=20),
             preserve_default=False,
         ),
